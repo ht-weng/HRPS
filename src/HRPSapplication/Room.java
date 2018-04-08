@@ -2,16 +2,15 @@ package HRPSapplication;
 
 import HRPSapplication.RoomType;
 
-public class Room{
+public class Room {
 	private int roomID;
 	private String roomNumber;    
 	private String status="vac";//vac,occ,res,man  
 	private RoomType roomType; 
-	private Boolean smoking=false; 
+	private Boolean smoking = false; 
 	private static int counter=0;
 
-	public Room()
-	{
+	public Room() {
 		counter++;
 		RoomType dum= new RoomType(5);
 		roomType = dum;
@@ -28,11 +27,11 @@ public class Room{
 	
 	public String getRoomNumber() {return roomNumber;}
 	
-	public void setRoomType(RoomType a) {roomType = a;}
+	public void setRoomType(RoomType type) {roomType = type;}
 	
-	public void setRoomStatus(String a) {status = a;}
+	public void setRoomStatus(String status) {this.status = status;}
 	
-	public void setRoomNumber(String a) {this.roomNumber = a;}
+	public void setRoomNumber(String number) {roomNumber = number;}
 	
-	public void setSmoking(Boolean a) {smoking = a;}
+	public void setSmoking(Boolean smoking) {this.smoking = smoking;}
 }

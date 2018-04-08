@@ -4,8 +4,7 @@ public class RoomType {
 	private int dailyRate;    
 	private String roomName;
    
-	public RoomType(int sel)    
-	{
+	public RoomType(int sel) {
 		switch (sel) {
 		case 1:
 			roomName="single";
@@ -30,8 +29,7 @@ public class RoomType {
 		}
 	}
 	
-	public void setRoomType(int sel)
-	{
+	public void setRoomType(int sel) {
 		switch (sel) {
 		case 1:
 			roomName="single";
@@ -57,4 +55,5 @@ public class RoomType {
 	}
 	
 	public String getRoomType() {return roomName;}
+	
 }
