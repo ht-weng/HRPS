@@ -9,8 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Reservation {
+	Scanner sc = new Scanner(System.in);
     
-	private int reservationID;
+	private int reservedervationID;
 	private Guest guest;
 	private Room room;
 	private String billingInfo;
@@ -20,52 +21,49 @@ public class Reservation {
 	private int noOfChildren;
 	private String status="Confirmed";// Confirmed, Checked-In, Expired, Cancelled
 	
-	private static int counter = 1;
-        
-    Scanner sc= new Scanner(System.in);
+	private static int counter = 1; 
         
 	public void acknowledge() {
-		System.out.println("Reservation ID: " +reservationID);
+		System.out.println("reservedervation ID: " + reservedervationID);
 		System.out.println("======================");
-		System.out.println("Guest: " +guest.getName());
-		System.out.println("Room Number: " +room.getRoomNumber());
-		System.out.println("Room Type: " +room.getRoomType().getRoomType());
-		System.out.println("Billing Info: "+billingInfo);
+		System.out.println("Guest: " + guest.getName());
+		System.out.println("Room Number: " + room.getRoomNumber());
+		System.out.println("Room Type: " + room.getRoomType());
+		System.out.println("Billing Info: " + billingInfo);
 		System.out.println("Check In Date:" + checkIn);
-		System.out.println("Check Out Date: "+ checkOut);
-		System.out.println("Number of Adults: "+noOfAdult);
-		System.out.println("Number of Children: "+noOfChildren);					
+		System.out.println("Check Out Date: " + checkOut);
+		System.out.println("Number of Adults: " + noOfAdult);
+		System.out.println("Number of Children: " + noOfChildren);					
 	}
 
 	//checks if the reservation has expired, and updates the room status and reservation accordingly
-	public void checkExpiry(Reservation c) {
+	public void checkExpiry(Reservation reserved) {
 		 
-	      Date now;
-	      Calendar cal = Calendar.getInstance();
-	      cal.add(Calendar.HOUR_OF_DAY, 1);
-	      now = cal.getTime();
-	      c.getCheckIn();
-	      if(c.getCheckIn().after(now)) {
-			updateStatus("Expired");
-			this.room.setRoomStatus("vac");
-	      }
+		Date now;
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.HOUR_OF_DAY, 1);
+	    now = cal.getTime();
+	    reserved.getCheckIn();
+	    if(reserved.getCheckIn().after(now)) {
+	    	updateStatus("Expired");
+			this.room.setRoomStatus("vacant");
+	    }
 	}
 
 	public void checkedIn() {
-		this.room.setRoomStatus("occ");
+		this.room.setRoomStatus("occupied");
 		this.status="Checked-In";
 	}
 	
 	public Reservation(HotelRooms po,GuestMasterList go) {
-	    System.out.println("=======Enter a new Reservation!=====");
-	    int choice=-1;
+		
+	    System.out.println("=======Enter a new reservedervation!=====");
+	    int choice = -1;
 	    
 	    System.out.println("Enter a Guest ID: ");
 	    int check=sc.nextInt();
 	    System.out.println("Your choice Guest ID is "+check);
-	    if(GuestMasterList.checkValid(check)==false);
-	        
-	    else {
+	    if(GuestMasterList.checkValid(check)) {
 	        po.printRoomInformation();
 	        this.guest=  go.getMasterListElement(check); 
 	        
@@ -88,8 +86,8 @@ public class Reservation {
 	                    continue;
 	                }          
 	            } else if(check2>0 && check2<20) { // if entered room is a Single Room
-	            	if(po.getSingleRoom(check2-1).getRoomStatus()=="occ") {
-	                    System.out.println("Room is occupied ");
+	            	if(po.getSingleRoom(check2-1).getRoomStatus()=="occupied") {
+	                    System.out.println("Room is occupiedupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
 	                    System.out.println("2| Enter any other button to Exit");
@@ -103,13 +101,13 @@ public class Reservation {
 	                } else {
 	                	// otherwise, room is OKAY!     
 	                    room=po.getSingleRoom(check2-1);
-	                    po.getSingleRoom(check2-1).setRoomStatus("occ");
+	                    po.getSingleRoom(check2-1).setRoomStatus("occupied");
 	                    choice=-2;
-	                    System.out.println("Room Reserved:" +" 01-"+check2);
+	                    System.out.println("Room reservederved:" +" 01-"+check2);
 	                }
 	            } else if(check2>=20 && check2<=29) { // if entered room is a Double Room
-	                if(po.getDoubleRoom(check2-20).getRoomStatus()=="occ") {
-	                    System.out.println("Room is occupied ");
+	                if(po.getDoubleRoom(check2-20).getRoomStatus()=="occupied") {
+	                    System.out.println("Room is occupiedupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
 	                    System.out.println("2| Enter any other button to Exit");
@@ -123,13 +121,13 @@ public class Reservation {
 	                } else {
 	                // otherwise, room is OKAY!
 	                	room=po.getDoubleRoom(check2-20);
-	                    po.getDoubleRoom(check2-20).setRoomStatus("res");
+	                    po.getDoubleRoom(check2-20).setRoomStatus("reserved");
 	                    choice=-2;
-	                    System.out.println("Room Reserved:" +" 01-"+check2);
+	                    System.out.println("Room reservederved:" +" 01-"+check2);
 	                }
-	            } else if(check2>=30 && check2<=39) {  // if entered room is a Deluxe Room
-	                if(po.getDeluxeRoom(check2-31).getRoomStatus()=="occ") {
-	                    System.out.println("Room is occupied ");
+	            } else if(check2>=30 && check2<=39) {  // if entered room is a deluxe Room
+	                if(po.getDeluxeRoom(check2-31).getRoomStatus()=="occupied") {
+	                    System.out.println("Room is occupiedupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
 	                    System.out.println("2| Enter any other button to Exit");
@@ -142,13 +140,13 @@ public class Reservation {
 	                   }
 	                } else {
 	                    room=po.getDeluxeRoom(check2-31);
-	                    po.getDeluxeRoom(check2-31).setRoomStatus("res");
+	                    po.getDeluxeRoom(check2-31).setRoomStatus("reserved");
 	                    choice=-2;
-	                    System.out.println("Room Reserved:" +" 02-"+check2);
+	                    System.out.println("Room reservederved:" +" 02-"+check2);
 	                }
 	            } else if(check2>=40 && check2<=49) { // if entered room is a Presidential Room
-	            	if(po.getPresidentRoom(check2-41).getRoomStatus()=="occ") {
-	                    System.out.println("Room is occupied ");
+	            	if(po.getPresidentRoom(check2-41).getRoomStatus()=="occupied") {
+	                    System.out.println("Room is occupiedupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
 	                    System.out.println("2| Enter any other button to Exit");
@@ -162,17 +160,17 @@ public class Reservation {
 	                } else {
 	                // otherwise, room is OKAY!
 	                    room=po.getPresidentRoom(check2-41);
-	                    po.getPresidentRoom(check2-41).setRoomStatus("res");
+	                    po.getPresidentRoom(check2-41).setRoomStatus("reserved");
 	                    choice=-2;
-	                    System.out.println("Room Reserved:" +" 04-"+check2);
+	                    System.out.println("Room reservederved:" +" 04-"+check2);
 	                }
 	            }
 	        } while(choice!=-2);
 	     
 	        //This part is the billing info
 	        System.out.println("Please enter billing info for cilent");
-	        System.out.println("|1. Press 1 to enter new credit card number");
-	        System.out.println("|2. Press 2 to use default credit number");
+	        System.out.println("|1. Preserveds 1 to enter new credit card number");
+	        System.out.println("|2. Preserveds 2 to use default credit number");
 	        
 	        int choice1= sc.nextInt();
 	        if(choice1==1) { 
@@ -234,10 +232,13 @@ public class Reservation {
 	               		System.out.println("Incorrect format");
 	               	}
 	        } while(choiceD!=0);
-	    }   
+	        
+	    }
+
 	}
+	
                
-	public int checkReservation(Reservation[] List,Date date,int roomId){ 
+	public int checkreservedervation(Reservation[] List,Date date,int roomId){ 
 		// This method checks if there's any reservation, returns 0 if there isn't and 1 if there is.
 		int check =0;
 		for(int i=0;i<List.length;i++)
@@ -259,7 +260,7 @@ public class Reservation {
 	}
 
 	public Reservation(Guest guest,Room room,String bill,Date in,Date out,int adult,int child) {
-		setReservationID();
+		setreservedervationID();
 		setGuest(guest);
 		setRoom(room);
 		setBillingInfo(bill);
@@ -280,12 +281,12 @@ public class Reservation {
 	}
 
 	//below is the getter and setter method 
-	public void setReservationID() {
-		reservationID=counter;
+	public void setreservedervationID() {
+		reservedervationID=counter;
 		counter++;
 	}
 	
-	public int getReservationID() {return reservationID;}
+	public int getreservedervationID() {return reservedervationID;}
 	
 	public Guest getGuest() {return guest;}
 	

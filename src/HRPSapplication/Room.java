@@ -5,7 +5,7 @@ import HRPSapplication.RoomType;
 public class Room {
 	private int roomID;
 	private String roomNumber;    
-	private String status="vac";//vac,occ,res,man  
+	private String status="vacant";//vacant,occupied,reserved,maintenance  
 	private RoomType roomType; 
 	private Boolean smoking = false; 
 	private static int counter=0;
