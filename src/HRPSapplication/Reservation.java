@@ -2,7 +2,6 @@ package HRPSapplication;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -37,8 +36,7 @@ public class Reservation {
 	}
 
 	//checks if the reservation has expired, and updates the room status and reservation accordingly
-	public void checkExpiry(Reservation reserved) {
-		 
+	public void checkExpiry(Reservation reserved) {	 
 		Date now;
 	    Calendar cal = Calendar.getInstance();
 	    cal.add(Calendar.HOUR_OF_DAY, 1);
