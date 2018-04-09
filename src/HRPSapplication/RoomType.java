@@ -15,14 +15,14 @@ public class RoomType {
 			dailyRate=100;
 			break;
 		case 3:
-			roomName="king";
+			roomName="deluxe";
 			dailyRate=300;
 			break;
 		case 4:
 			roomName="president";
 			dailyRate=500; 
 			break;
-		case 5:
+		default:
 			roomName="NIL";
 			dailyRate=0;
 			break;
@@ -40,7 +40,7 @@ public class RoomType {
 			dailyRate=100;
 			break;
 		case 3:
-			roomName="king";
+			roomName="deluxe";
 			dailyRate=300;
 			break;
 		case 4:
@@ -55,5 +55,4 @@ public class RoomType {
 	}
 	
 	public String getRoomType() {return roomName;}
-	
 }

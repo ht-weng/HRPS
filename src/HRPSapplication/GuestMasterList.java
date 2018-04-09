@@ -20,17 +20,16 @@ public class GuestMasterList {
 	}
 	
 	public void newGuest()
-	{
-	    counter++;
+	{   
+		counter++;
 	    masterList[counter]= new Guest(0);	   
+	    
 	}
 	
 	public static Boolean checkValid(int gID)
 	{
 	    if((gID<=counter)&(gID>=1))
-	    {
 	        return true;
-	    } 
 	    else
 	    {   
 	        System.out.println("Guest does not exist!");
