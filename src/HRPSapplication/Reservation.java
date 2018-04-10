@@ -27,7 +27,7 @@ public class Reservation {
 		System.out.println("=====================================");
 		System.out.println("Guest: " + guest.getName());
 		System.out.println("Room Number: " + room.getRoomNumber());
-		System.out.println("Room Type: " + room.getRoomType());
+		System.out.println("Room Type: " + room.getRoomType().getRoomType());
 		System.out.println("Billing Info: " + billingInfo);
 		System.out.println("Check In Date:" + checkIn);
 		System.out.println("Check Out Date: " + checkOut);
@@ -185,7 +185,7 @@ public class Reservation {
 	           
 	        
 	        //This part is the date part
-	        boolean isRecorded = false;
+	        /*boolean isRecorded = false;
 	        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	        Date cIn = null,cOut,now,checkD = null;
 	        Calendar cal = Calendar.getInstance();
@@ -230,12 +230,133 @@ public class Reservation {
 	               	}catch (ParseException e){
 	               		System.out.println("Incorrect format!");
 	               	}
-	        } while(!isRecorded); 
+	        } while(!isRecorded); */
+	        enterCheckInDate();
+	        enterCheckOutDate();
 	        reservationReceipt();
 	    }
 	}
+	 
+	public void enterCheckInDate() {
+		boolean isRecorded = false;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date cIn = null,now;
+        Calendar cal = Calendar.getInstance();
+        now = cal.getTime();
+        do {
+        	System.out.println("Please enter check in Date (dd/mm/yyyy)");       
+        	String inDate = sc.next();
+        	System.out.println("Please enter check in Time (hh:mm)");
+        	String inTime = sc.next();
+        	String in = inDate + " " + inTime;   
+        
+        	try {
+        		cIn = df.parse(in);
+        		if(cIn.compareTo(now) < 0) {
+        			System.out.println("Check in date is before Today!");
+        		} else {
+        			this.checkIn = cIn;
+        			isRecorded = true;
+        		}
+        	} catch (ParseException e){
+        		System.out.println("Incorrect format!");
+        		e.printStackTrace();
+        	}
+        } while(!isRecorded);
+	}
 	
-               
+	public void enterCheckOutDate() {
+		boolean isRecorded = false;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date cOut;
+        do {
+            System.out.println("Please enter check out Date (dd/mm/yyyy)");       
+            String outDate = sc.next();
+            System.out.println("Please enter check out Time (hh:mm)");
+            String outTime = sc.next();
+            String out = outDate + " " + outTime;
+            	try{
+            		cOut = df.parse(out);
+               		if(cOut.compareTo(this.getCheckIn()) <0) {
+               			System.out.println("Check out date is before Check in date!");
+               		} else {
+               			this.checkOut = cOut;
+               			isRecorded = true;
+               		}
+               	}catch (ParseException e){
+               		System.out.println("Incorrect format!");
+               	}
+        } while(!isRecorded); 	
+	}
+	
+	public void updateReservation() {
+		boolean isRecorded = false;
+		int choice;
+		do {
+			System.out.println("Select the attribute to update:");
+			System.out.println("1.Guest");
+			System.out.println("2.Room//TODO");
+			System.out.println("3.Check In Date");
+			System.out.println("4.Check Out Date");
+			System.out.println("5.Status");
+			System.out.println("6.Number of Adult");
+			System.out.println("7.Number of Children");
+			System.out.println("8.Billing Info");
+			System.out.println("9.Exit");
+			choice = sc.nextInt();
+		
+			switch(choice) {
+			case 1:
+				this.guest.updateGuest();
+				isRecorded = true;
+				break;
+			case 2:
+				//TODO:update room type or room number
+				isRecorded = true;
+				break;
+			case 3:
+				enterCheckInDate();
+				isRecorded = true;
+				break;
+			case 4:
+				enterCheckOutDate();
+				isRecorded = true;
+				break;
+			case 5:
+				System.out.println("Please enter the new status");
+				sc.nextLine();
+				String stat = sc.nextLine();
+				updateStatus(stat);
+				isRecorded = true;
+				break;
+			case 6:
+				System.out.println("Enter the new number of adult:");
+				this.noOfAdult = sc.nextInt();
+				isRecorded = true;
+				break;
+			case 7:
+				System.out.println("Enter the new number of children:");
+				this.noOfChildren = sc.nextInt();
+				isRecorded = true;
+				break;
+			case 8:
+				System.out.println("Please enter the new credit card number for cilent");
+				sc.nextLine();
+		        this.billingInfo= sc.nextLine();	       
+				isRecorded = true;
+				break;
+			case 9:
+				System.out.println("Exiting...");
+				isRecorded = true;
+				break;
+			default:
+				System.out.println("Invalid Option!");
+				break;		
+			}
+		} while (!isRecorded);
+		
+	}
+	
 	public int checkReservation(Reservation[] List,Date date,int roomId){ 
 		// This method checks if there's any reservation, returns 0 if there isn't and 1 if there is.
 		int check =0;

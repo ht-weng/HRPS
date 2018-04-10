@@ -15,7 +15,7 @@ public class Guest
 	private String gender;
 	private String identity;
 	private String nationality;
-	private int phone;
+	private long phone;
 	//number of guests
 	private static int totalGuests=0;
 
@@ -57,11 +57,13 @@ public class Guest
 			switch(choice) {
 			case 1:
 				System.out.println("Please enter passport number: ");
+				sc.nextLine();
 				identity = sc.nextLine();
 				isRecorded = true;
 				break;
 			case 2:
 				System.out.println("Please enter driving license number: ");
+				sc.nextLine();
 				identity = sc.nextLine();
 				isRecorded = true;
 				break;
