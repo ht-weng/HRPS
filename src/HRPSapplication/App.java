@@ -7,8 +7,7 @@ import HRPSapplication.RoomService;
 import java.util.Scanner;
 
 public class App {
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
        /*// ===========To test functionality of Guest Class=================================
         Guest test= new Guest();
         Guest test2= new Guest();
@@ -41,6 +40,7 @@ public class App {
        Reservation res1= new Reservation (po, go);
        Reservation res2= new Reservation (po, go);
        po.printRoomInformation();*/
+    	Scanner sc = new Scanner(System.in);
        GuestMasterList gml = new GuestMasterList();
        HotelRooms rooms = new HotelRooms();
        Reservation[] reservations = new Reservation[500];
@@ -49,7 +49,6 @@ public class App {
        int choice, choice2, rID, noOfReservations = 0, noOfServices = 0;
        boolean isRecorded = false;
        Room rm;
-       Scanner sc = new Scanner(System.in);
        String keyword;
 
        System.out.println();
@@ -97,7 +96,7 @@ public class App {
 	        		   System.out.println("Please enter the search keyword: ");
 	        		   sc.nextLine();
 	        		   keyword = sc.nextLine();
-	        		   if (gml.searchGuestByKeywords(gml, keyword).getIsEmpty() == false) {
+	        		   if (!gml.searchGuestByKeywords(gml, keyword).getIsEmpty()) {
 	        			   gml.searchGuestByKeywords(gml, keyword).updateGuest();
 	        			   isRecorded = true;
 	        		   } else {
@@ -109,7 +108,7 @@ public class App {
 	        		   System.out.println("Please enter the search keyword: ");
 	        		   sc.nextLine();
 	        		   keyword = sc.nextLine();
-	        		   if (gml.searchGuestByKeywords(gml, keyword).getIsEmpty() == false) {
+	        		   if (!gml.searchGuestByKeywords(gml, keyword).getIsEmpty()) {
 	        			   gml.searchGuestByKeywords(gml, keyword).printGuestDetail();;
 	        			   isRecorded = true;
 	        		   } else {
@@ -141,21 +140,21 @@ public class App {
 	        	   switch(choice2) {
 	        	   case 1:
 	        		   noOfReservations++;
-	        		   reservations[noOfReservations-1] = new Reservation(rooms, gml);
+	        		   reservations[noOfReservations-1] = new Reservation(rooms, gml, false);
 	        		   isRecorded = true;
 	        		   break;
 	        	   case 2:
 	        		   int resID, index;
 	        		   System.out.println("Enter the reservation ID: ");
 	        		   resID = sc.nextInt();
-	        		   index = searchReservation(reservations, resID, noOfReservations);
+	        		   index = Reservation.searchReservation(reservations, resID, noOfReservations);
 	        		   reservations[index].updateReservation(rooms);
 	        		   isRecorded = true;
 	        		   break;
 	        	   case 3:
 	        		   System.out.println("Enter the reservation ID: ");
 	        		   resID = sc.nextInt();
-	        		   index = searchReservation(reservations, resID, noOfReservations);
+	        		   index = Reservation.searchReservation(reservations, resID, noOfReservations);
 	        		   reservations[index].updateStatus("Cancelled");
 	        		   reservations[index].getRoom().setRoomStatus("vacant");
 	        		   isRecorded = true;
@@ -163,7 +162,7 @@ public class App {
 	        	   case 4:
 	        		   System.out.println("Enter the reservation ID: ");
 	        		   resID = sc.nextInt();
-	        		   index = searchReservation(reservations, resID, noOfReservations);
+	        		   index = Reservation.searchReservation(reservations, resID, noOfReservations);
 	        		   reservations[index].reservationReceipt();
 	        		   isRecorded = true;
 	        		   break;
@@ -189,7 +188,7 @@ public class App {
            case 4://Entering room service orders
         	   System.out.println("Enter the reservation ID: ");
         	   int resID = sc.nextInt();
-        	   int index = searchReservation(reservations, resID, noOfReservations);
+        	   int index = Reservation.searchReservation(reservations, resID, noOfReservations);
         	   System.out.println("The current room service list: ");
     		   for (int i = 0; i < noOfServices; i++) {
     			   System.out.println(noOfServices + ": " + rmServices[i].getName());
@@ -241,7 +240,7 @@ public class App {
 	        		   System.out.println("Enter the room service ID: ");
 	        		   rmSvcID = sc.nextInt();
 	        		   if (rmSvcID > 0 && rmSvcID <= noOfServices) {
-	        			   removeRoomService(rmServices, rmSvcID, noOfServices);
+	        			   RoomService.removeRoomService(rmServices, rmSvcID, noOfServices);
 	        			   System.out.println("Service removed!");
 	        			   isRecorded = true;
 	        		   } else {
@@ -280,19 +279,29 @@ public class App {
         	   isRecorded = false;
         	   do {
 	        	   System.out.println("Select the check-in type: ");
-	        	   System.out.println("1.Walk-in");
-	        	   System.out.println("2.Reservation");
+	        	   System.out.println("1.By Walk-in");
+	        	   System.out.println("2.By Reservation");
 	        	   System.out.println("3.Exit");
 	        	   choice = sc.nextInt();
 	        	   
 	        	   switch(choice) {
 	        	   case 1:
-	        		   //TODO
+	        		   noOfReservations++;
+	        		   reservations[noOfReservations-1] = new Reservation(rooms, gml, true); 
+	        		   System.out.println("Room checked-in successfully!");
 	        		   isRecorded = true;
 	        		   break;
 	        	   case 2:
-	        		   //TODO
-	        		   isRecorded = true;
+	        		   System.out.println("Please enter guest name: ");
+	        		   sc.nextLine();
+	        		   keyword = sc.nextLine();
+	        		   Reservation res = reservations[0].searchReservationByName(reservations, keyword, noOfReservations);
+	        		   if (!res.getIsEmpty()) {
+	        			   res.checkedIn();
+	        			   isRecorded = true;
+	        		   } else {
+	        			   isRecorded = false;
+	        		   }
 	        		   break;
 	        	   case 3:
 	        		   isRecorded = true;
@@ -305,7 +314,16 @@ public class App {
         	   }while(!isRecorded);
         	   break;
            case 8://Room Check-out and print bill invoice
-        	   //TODO
+        	   System.out.println("Please enter the room number: ");
+        	   sc.nextLine();
+        	   String rmNo = sc.nextLine();
+        	   Reservation res = Reservation.searchReservationByRoomNo(reservations, rmNo, noOfReservations);
+        	   if (!res.getIsEmpty()) {
+    			   res.checkedOut();
+    			   isRecorded = true;
+    		   } else {
+    			   isRecorded = false;
+    		   }
         	   break;
            case 9://Print Room Status statistic report
         	   rooms.printRoomInformation();
@@ -316,22 +334,14 @@ public class App {
         		   reservations[i].checkExpiry();
         	   }
            }
-
+           
        } while (choice > 0 && choice < 10);
        System.out.println("===================================================");
-       System.out.println("Exiting...");
-       sc.close();  
+       System.out.println("Exiting..."); 
+       sc.close();
     }
     
-    //search reservation by reservation ID
-    public static int searchReservation(Reservation[] res, int resID, int length) {
-    	int result = -1;
-    	for (int i = 0; i < length; i++) {
-    		if (res[i].getReservationID() == resID)
-    			result = i;   		
-    	}
-    	return result;
-    }
+  
     
     public static Room getRoomByRoomID(HotelRooms rooms, int rID) {
     	if (rID > 0 && rID <=20) {
@@ -345,15 +355,6 @@ public class App {
     	}
     }
     
-    public static void removeRoomService(RoomService[] rmSvcs, int index, int noOfSvcs) {
-    	if (index == noOfSvcs) {
-    		noOfSvcs--;
-    	} else {
-    		for (int i = index-1; i < noOfSvcs-1; i++) {
-    			rmSvcs[i] = rmSvcs[i+1];
-    		}
-    		noOfSvcs--;
-    	} 
-    }
+    
 }
 

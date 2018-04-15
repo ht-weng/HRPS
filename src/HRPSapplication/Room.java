@@ -63,6 +63,8 @@ public class Room {
 	
 	public String getRoomNumber() {return roomNumber;}
 	
+	public boolean getSmoking() {return smoking;} 
+	
 	public void setRoomType(RoomType type) {roomType = type;}
 	
 	public void setRoomStatus(String status) {this.status = status;}

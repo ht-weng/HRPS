@@ -53,7 +53,7 @@ public class GuestMasterList {
 			System.out.println("Target guest |" + resultList[0].getName() + "| found!");
 			return resultList[0];
 		} else if (count == -1){
-			System.out.println("Cannot find target guest in the guest list!");
+			System.out.println("Target guest does not exist!");
 			return nullResult;
 		} else {
 			int gID;

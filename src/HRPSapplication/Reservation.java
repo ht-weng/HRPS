@@ -20,44 +20,19 @@ public class Reservation {
 	private Date checkOut;
 	private int noOfAdult;
 	private int noOfChildren;
-	private String status="Confirmed";// Confirmed, Checked-In, Checked-Out, Expired, Cancelled
+	private String status;// Confirmed, Checked-In, Checked-Out, Expired, Cancelled
 	private RoomService[] roomServices = new RoomService[50];
+	private boolean isEmpty = false;
 	
 	private static int counter = 1; 
 	private static int noOfServices = 0;
-    
-	public void reservationReceipt() {
-		System.out.println("reservation ID: " + reservationID);
-		System.out.println("=====================================");
-		System.out.println("Guest: " + guest.getName());
-		System.out.println("Room Number: " + room.getRoomNumber());
-		System.out.println("Room Type: " + room.getRoomType().getRoomType());
-		System.out.println("Billing Info: " + billingInfo);
-		System.out.println("Check In Date:" + checkIn);
-		System.out.println("Check Out Date: " + checkOut);
-		System.out.println("Number of Adults: " + noOfAdult);
-		System.out.println("Number of Children: " + noOfChildren);					
-	}
-
-	//checks if the reservation has expired, and updates the room status and reservation accordingly
-	public void checkExpiry() {	 
-		Date now;
-	    Calendar cal = Calendar.getInstance();
-	    cal.add(Calendar.HOUR_OF_DAY, 1);
-	    now = cal.getTime();
-	    if(checkIn.after(now)) {
-	    	updateStatus("Expired");
-			room.setRoomStatus("vacant");
-	    }
-	}
-
-	public void checkedIn() {
-		this.room.setRoomStatus("occupied");
-		this.status="Checked-In";
-	}
 	
-	public Reservation(HotelRooms rooms,GuestMasterList gml) {
+	public Reservation() {isEmpty = true;}
+	
+	//isWalkIn is to differentiate the check-ins by walk-in from the ones by reservation
+	public Reservation(HotelRooms rooms,GuestMasterList gml, boolean isWalkIn) {
 		setReservationID();
+		this.status = "Confirmed";
 	    System.out.println("=======Enter a new reservation!=====");
 	    int choice = -1;
 	    
@@ -72,18 +47,18 @@ public class Reservation {
 	        System.out.println("Enter a Room ID(1-48): ");
 	        
 	        int rID = sc.nextInt();
-	        
-	        //checks if room is empty
+	        boolean isRecorded = false;
+	        //check if room is available
 	        do {
 	            if(rID < 1 || rID > 48) {
 	                System.out.println("Number not in 1-48!");
 	                System.out.println("1| Enter 1 to key in another room number.");
-	                System.out.println("2| Enter any other number to Exit");
+	                System.out.println("2| Exit");
 	                choice = sc.nextInt();
 	                if(choice != 1)
 	                	return;  
 	                else {
-	                    System.out.println("Enter a new room number");
+	                    System.out.println("Enter a new room number: ");
 	                    rID = sc.nextInt();
 	                }          
 	            } else if(rID > 0 && rID <= 20) { //reserve a Single Room
@@ -91,19 +66,19 @@ public class Reservation {
 	            		System.out.println("Room is occupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
-	                    System.out.println("2| Enter any other number to Exit");
+	                    System.out.println("2| Exit");
 	                    choice= sc.nextInt();
 	                    if (choice != 1)
 	                    	return;
 	                    else {
-	                        System.out.println("Enter a new room number");
+	                        System.out.println("Enter a new room number: ");
 	                        rID = sc.nextInt();
 	                    }
 	                } else {
 	                	// otherwise, room is available 
 	                    room = rooms.getSingleRoom(rID-1);
 	                    rooms.getSingleRoom(rID-1).setRoomStatus("reserved");
-	                    choice = -2;
+	                    isRecorded = true;
 	                    System.out.println("Room reserved:" +" 01-"+rID);
 	                }
 	            } else if(rID > 20 && rID <= 40) { //reserve a Double Room
@@ -111,19 +86,19 @@ public class Reservation {
 	                    System.out.println("Room is occupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
-	                    System.out.println("2| Enter any other number to Exit");
+	                    System.out.println("2| Exit");
 	                    choice= sc.nextInt();
 	                    if (choice!=1)
 	                    	return;
 	                    else {
-	                        System.out.println("Enter a new room number");
+	                        System.out.println("Enter a new room number: ");
 	                        rID = sc.nextInt();
 	                    }
 	                } else {
 	                // otherwise, room is vacant
 	                	room=rooms.getDoubleRoom(rID-21);
 	                    rooms.getDoubleRoom(rID-21).setRoomStatus("reserved");
-	                    choice=-2;
+	                    isRecorded = true;
 	                    System.out.println("Room reserved:" +" 02-"+rID);
 	                }
 	            } else if(rID>40 && rID<=46) {  //reserve a Deluxe Room
@@ -131,18 +106,18 @@ public class Reservation {
 	                    System.out.println("Room is occupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
-	                    System.out.println("2| Enter any other number to Exit");
+	                    System.out.println("2| Exit");
 	                   choice= sc.nextInt();
 	                   if (choice!=1)
 	                       return;
 	                   else {
-	                        System.out.println("Enter a new room number");
+	                        System.out.println("Enter a new room number: ");
 	                        rID=sc.nextInt();
 	                   }
 	                } else {
 	                    room=rooms.getDeluxeRoom(rID-41);
 	                    rooms.getDeluxeRoom(rID-41).setRoomStatus("reserved");
-	                    choice=-2;
+	                    isRecorded = true;
 	                    System.out.println("Room reserved:" +" 03-"+rID);
 	                }
 	            } else if(rID>46 && rID<=48) { //reserve a Presidential Room
@@ -150,23 +125,28 @@ public class Reservation {
 	                    System.out.println("Room is occupied ");
 	                    System.out.println("===============");
 	                    System.out.println("1| Enter 1 to key in another room number.");
-	                    System.out.println("2| Enter any other button to Exit");
+	                    System.out.println("2| Exit");
 	                   choice= sc.nextInt();
 	                   if (choice!=1)
 	                       return;
 	                   else {
-	                        System.out.println("Enter a new room number");
+	                        System.out.println("Enter a new room number: ");
 	                        rID=sc.nextInt();
 	                   }
 	                } else {
-	                // otherwise, room is OKAY!
+	                // otherwise, room is available!
 	                    room=rooms.getPresidentRoom(rID-47);
-	                    rooms.getPresidentRoom(rID-47).setRoomStatus("reserved");
-	                    choice=-2;
-	                    System.out.println("Room reserved:" +" 04-"+rID);
+	                    if (isWalkIn) {
+	                    	rooms.getPresidentRoom(rID-47).setRoomStatus("occupied");
+	                    	System.out.println("Room checked-in:" +" 04-"+rID);
+	                    } else {
+	                    	rooms.getPresidentRoom(rID-47).setRoomStatus("reserved");
+	                    	System.out.println("Room reserved:" +" 04-"+rID);
+	                    }
+	                    isRecorded = true;
 	                }
 	            }
-	        } while(choice!=-2);
+	        } while(!isRecorded);
 	     
 	        System.out.println("Enter the number of adults");
 	        this.noOfAdult=sc.nextInt();
@@ -186,61 +166,102 @@ public class Reservation {
 	        } else {
 	            this.billingInfo= guest.getCredit();
 	        }
-	           
 	        
-	        //This part is the date part
-	        /*boolean isRecorded = false;
-	        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	        Date cIn = null,cOut,now,checkD = null;
-	        Calendar cal = Calendar.getInstance();
-	        now = cal.getTime();
-	        do {
-	        	System.out.println("Please enter check in Date (dd/mm/yyyy)");       
-	        	String inDate = sc.next();
-	        	System.out.println("Please enter check in Time (hh:mm)");
-	        	String inTime = sc.next();
-	        	String in = inDate + " " + inTime;   
-	        
-	        	try {
-	        		cIn = df.parse(in);
-	        		if(cIn.compareTo(now) < 0) {
-	        			System.out.println("Check in date is before Today!");
-	        		} else {
-	        			this.checkIn = cIn;
-	        			checkD= cIn;
-	        			isRecorded = true;
-	        		}
-	        	} catch (ParseException e){
-	        		System.out.println("Incorrect format!");
-	        		e.printStackTrace();
-	        	}
-	        } while(!isRecorded);
-	        
-	        isRecorded = false;
-	        do {
-	            System.out.println("Please enter check out Date (dd/mm/yyyy)");       
-	            String outDate = sc.next();
-	            System.out.println("Please enter check out Time (hh:mm)");
-	            String outTime = sc.next();
-	            String out = outDate + " " + outTime;
-	            	try{
-	            		cOut = df.parse(out);
-	               		if(cOut.compareTo(checkD) <0) {
-	               			System.out.println("Check out date is before Check in date!");
-	               		} else {
-	               			this.checkOut = cOut;
-	               			isRecorded = true;
-	               		}
-	               	}catch (ParseException e){
-	               		System.out.println("Incorrect format!");
-	               	}
-	        } while(!isRecorded); */
-	        enterCheckInDate();
+	        if (isWalkIn) {
+	            Date now;
+	            Calendar cal = Calendar.getInstance();
+	            now = cal.getTime();
+	        	setCheckIn(now);
+	        	setStatus("Checked-In");
+	        } else {
+	        	enterCheckInDate();
+	        }
 	        enterCheckOutDate();
 	        reservationReceipt();
 	    }
 	}
-	 
+	
+	public void reservationReceipt() {
+		System.out.println("reservation ID: " + reservationID);
+		System.out.println("=====================================");
+		System.out.println("Guest: " + guest.getName());
+		System.out.println("Room Number: " + room.getRoomNumber());
+		System.out.println("Room Type: " + room.getRoomType().getRoomType());
+		System.out.println("Billing Info: " + billingInfo);
+		System.out.println("Check In Date:" + checkIn);
+		System.out.println("Check Out Date: " + checkOut);
+		System.out.println("Number of Adults: " + noOfAdult);
+		System.out.println("Number of Children: " + noOfChildren);
+		System.out.println(status);	
+	}
+
+	//checks if the reservation has expired, and updates the room status and reservation accordingly
+	public void checkExpiry() {	 
+		Date now;
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.HOUR_OF_DAY, 1);
+	    now = cal.getTime();
+	    if(now.after(checkIn) && status.equals("Confirmed")) {
+	    	updateStatus("Expired");
+			room.setRoomStatus("vacant");
+	    }
+	}
+
+	public void checkedIn() {
+		if (this.room.getRoomStatus().equals("reserved")) {
+			Date now;
+	        Calendar cal = Calendar.getInstance();
+	        now = cal.getTime();
+			this.room.setRoomStatus("occupied");
+			this.setStatus("Checked-In");
+			this.setCheckIn(now);
+			System.out.println("Room checked-in successfully!");
+		} else if (this.room.getRoomStatus().equals("occupied")) {
+			System.out.println("Room not available right now!");
+		}else {
+			System.out.println("Room not reserved!");
+		}
+	}
+	
+	public void checkedOut() {
+		if (this.room.getRoomStatus().equals("occupied")) {
+			Date now;
+	        Calendar cal = Calendar.getInstance();
+	        now = cal.getTime();
+			this.room.setRoomStatus("vacant");
+			this.setStatus("Checked-Out");
+			this.setCheckOut(now);
+			System.out.println("Room checked-out successfully!");
+			//print the bill
+			this.reservationReceipt();
+			System.out.println("-----------------------------------");
+			System.out.println("            bill invoice           ");
+			System.out.println("-----------------------------------");
+			int days = this.daysBetween(checkIn, checkOut);
+			System.out.println("Duration of stay: " + days);
+			int rmFees = days*this.getRoom().getRoomType().getRate();
+			System.out.println("Total room charge: " + rmFees);
+			int rmSvcFees = 0;
+			for (int i = 0; i < this.getNoOfRoomServices(); i++) {
+				rmSvcFees += this.getRoomServices()[i].getPrice();
+			}
+			System.out.println("Room service fees: " + rmSvcFees);
+			System.out.println("-----------------------------------");
+			System.out.println("Total bill to pay: " + (rmFees + rmSvcFees));
+			System.out.println("-----------------------------------");
+			
+		} else if (this.room.getRoomStatus().equals("reserved")) {
+			System.out.println("Room not checked-in!");
+		}else {
+			System.out.println("Room not reserved!");
+		}
+	}
+	
+	public int daysBetween(Date one, Date two) {
+		long difference = (one.getTime() - two.getTime())/8640000;
+		return (int)Math.abs(difference);
+	}
+	
 	public void enterCheckInDate() {
 		boolean isRecorded = false;
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -370,7 +391,7 @@ public class Reservation {
 			case 4:
 				enterCheckOutDate();
 				isRecorded = true;
-				System.out.println("Check-put date updated!");
+				System.out.println("Check-out date updated!");
 				break;
 			case 5:
 				System.out.println("The current status: " + this.getStatus());
@@ -411,6 +432,74 @@ public class Reservation {
 		} while (!isRecorded);	
 	}
 	
+	//search reservation by guest name keywords
+  	public Reservation searchReservationByName(Reservation[] resList, String keyword, int noOfRes) {
+  		Reservation nullResult = new Reservation();
+  		Reservation[] resultList = new Reservation[100];
+  		int count = -1;
+  		
+  		for (int i = 0; i < noOfRes; i++) {
+  			if (resList[i].getGuest().getName().contains(keyword) && resList[i].getStatus().equals("Confirmed")) {
+  				count++;
+  				resultList[count] = resList[i];
+  			}
+  		}
+  		
+  		if (count == 0) {
+  			System.out.println("Target reservation found!");
+  			System.out.println("");
+  			resultList[0].reservationReceipt();
+  			return resultList[0];
+  		} else if (count == -1){
+  			System.out.println("Target reservation does not exist!");
+  			System.out.println("");
+  			return nullResult;
+  		} else {
+  			int rID;
+  			System.out.println((count+1) + " reservations found: ");
+  			for (int i = 0; i <= count; i++) {
+  				System.out.println((i+1) + ": ");
+  				resultList[i].reservationReceipt();
+  			}
+  			System.out.println("Please enter the reservation ID: ");
+  			rID = sc.nextInt();
+  			
+  			for (int i = 0; i <= count; i++) {
+  				if (resultList[i].getReservationID() == rID) {
+  					System.out.println("Target reservation found!");
+  					System.out.println("");
+  					return resultList[i];
+  				}
+  			}
+  			
+  			System.out.println("Invalid Reservation ID! Reservation does not exist!");
+  			System.out.println("");
+  			return nullResult;
+  		}
+  	}
+  	
+  	public static Reservation searchReservationByRoomNo(Reservation[] resList, String rmNo, int noOfRes) {
+  		Reservation nullResult = new Reservation();
+  		
+  		for (int i = 0; i < noOfRes; i++) {
+  			if (resList[i].getRoom().getRoomNumber().contains(rmNo)) {
+  				return resList[i];
+  			}
+  		}	
+  		System.out.println("Invalid room numner!");
+  		return nullResult;
+  	}
+	
+	//search reservation by reservation ID
+	public static int searchReservation(Reservation[] list, int resID, int length) {
+    	int result = -1;
+    	for (int i = 0; i < length; i++) {
+    		if (list[i].getReservationID() == resID)
+    			result = i;   		
+    	}
+    	return result;
+    }
+	
 	public int checkReservation(Reservation[] List, Date date, int roomId){ 
 		// This method checks if there's any reservation, returns 0 if there isn't and 1 if there is.
 		int check =0;
@@ -431,21 +520,9 @@ public class Reservation {
 		}
 		return check;
 	}
-
-	public Reservation(Guest guest,Room room,String bill,Date in,Date out,int adult,int child) {
-		setReservationID();
-		setGuest(guest);
-		setRoom(room);
-		setBillingInfo(bill);
-		setCheckIn(in);
-		setCheckOut(out);
-		setNoOfAdult(adult);
-		setNoOfChildren(child);
-		updateStatus("Confirmed");
-	}
 	
 	public void updateStatus(String stat) {
-		if(stat.equals("Confirmed") || stat.equals("Checked-In") || stat.equals("Expired") || stat.equals("Cancelled"))
+		if(stat.equals("Confirmed") || stat.equals("Checked-In") || stat.equals("Checked-Out") || stat.equals("Expired") || stat.equals("Cancelled"))
 			setStatus(stat);
 		else
 			System.out.println("Invalid Status");
@@ -462,6 +539,8 @@ public class Reservation {
 		reservationID=counter;
 		counter++;
 	}
+	
+	public boolean getIsEmpty() {return isEmpty;}
 	
 	public int getReservationID() {return reservationID;}
 	

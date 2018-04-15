@@ -40,6 +40,17 @@ public class RoomService {
 		sc.close();
 	}
 	
+	public static void removeRoomService(RoomService[] rmSvcs, int index, int noOfSvcs) {
+    	if (index == noOfSvcs) {
+    		noOfSvcs--;
+    	} else {
+    		for (int i = index-1; i < noOfSvcs-1; i++) {
+    			rmSvcs[i] = rmSvcs[i+1];
+    		}
+    		noOfSvcs--;
+    	} 
+    }
+	
 	public String getName() {return name;}
 	
 	public int getPrice() {return price;}

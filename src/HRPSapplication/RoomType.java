@@ -55,4 +55,6 @@ public class RoomType {
 	}
 	
 	public String getRoomType() {return roomName;}
+	
+	public int getRate() {return dailyRate;}
 }
