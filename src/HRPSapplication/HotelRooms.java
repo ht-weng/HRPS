@@ -65,11 +65,12 @@ public class HotelRooms {
 	}
 	
 	public static void printRoomSummary(Room[] rooms, String roomType, int vacantNo, int total_room_number) {
+		System.out.println("");
 		System.out.println(roomType + ": " + vacantNo + " out of " + total_room_number + " vacant.");
 		System.out.println("Vacant rooms:");
 		for (int i = 0; i < total_room_number; i++) {
 			if (rooms[i].getRoomStatus().equals("vacant"))
-				System.out.printf("%s, ",rooms[i].getRoomNumber());
+				System.out.printf("||RoomNumber: %s|RoomID: %d|| ",rooms[i].getRoomNumber(), rooms[i].getRoomID());
 		}
 		System.out.println("");
 	}
@@ -83,7 +84,7 @@ public class HotelRooms {
 		deluxe_vacant_counter = countVacantRooms(deluxeRooms, MAX_DELUXE_ROOMS);
 		president_vacant_counter = countVacantRooms(presidentRooms, MAX_PRESIDENT_ROOMS);
 		
-		System.out.println("Room Occupancy Rate:");
+		System.out.println("Room Occupancy Information:");
 		System.out.println("==========================================================");
     
 		//PRINT SUMMARY
@@ -110,5 +111,12 @@ public class HotelRooms {
 	
 	public Room getDeluxeRoom(int a) {return deluxeRooms[a];}
 	
+	public int getMaxSingleRooms() {return MAX_SINGLE_ROOMS;}
+	
+	public int getMaxDoubleRooms() {return MAX_DOUBLE_ROOMS;}
+	
+	public int getMaxDeluxeRooms() {return MAX_DELUXE_ROOMS;}
+	
+	public int getMaxPresidentRooms() {return MAX_PRESIDENT_ROOMS;}
 }
 

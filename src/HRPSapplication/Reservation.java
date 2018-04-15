@@ -6,6 +6,8 @@ import java.util.Scanner;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import HRPSapplication.HotelRooms;
+import HRPSapplication.RoomService;
 
 public class Reservation {
 	Scanner sc = new Scanner(System.in);
@@ -18,10 +20,12 @@ public class Reservation {
 	private Date checkOut;
 	private int noOfAdult;
 	private int noOfChildren;
-	private String status="Confirmed";// Confirmed, Checked-In, Expired, Cancelled
+	private String status="Confirmed";// Confirmed, Checked-In, Checked-Out, Expired, Cancelled
+	private RoomService[] roomServices = new RoomService[50];
 	
 	private static int counter = 1; 
-        
+	private static int noOfServices = 0;
+    
 	public void reservationReceipt() {
 		System.out.println("reservation ID: " + reservationID);
 		System.out.println("=====================================");
@@ -62,7 +66,7 @@ public class Reservation {
 	    System.out.println("Your choice Guest ID is " + gID);
 	    if(GuestMasterList.checkValid(gID)) {
 	        rooms.printRoomInformation();
-	        this.guest = gml.getMasterListElement(gID); 
+	        this.guest = gml.getMasterListElement(gID-1); 
 	        
 	        System.out.println("");
 	        System.out.println("Enter a Room ID(1-48): ");
@@ -289,15 +293,19 @@ public class Reservation {
         } while(!isRecorded); 	
 	}
 	
-	public void updateReservation() {
-		boolean isRecorded = false;
+	public void updateReservation(HotelRooms rms) {
+		boolean isRecorded = false, _isRecorded = false;
 		int choice;
+		int maxSgRms = rms.getMaxSingleRooms(), maxDbRms = rms.getMaxDoubleRooms(),
+				maxDlRms = rms.getMaxDeluxeRooms(), maxPreRms = rms.getMaxPresidentRooms();
+		int toSgRms = maxSgRms, toDbRms = maxSgRms + maxDbRms, toDlRms = maxSgRms + maxDbRms + maxDlRms, 
+				toPreRms = maxSgRms + maxDbRms + maxDlRms + maxPreRms;
 		do {
 			System.out.println("Select the attribute to update:");
 			System.out.println("1.Guest");
-			System.out.println("2.Room//TODO");
-			System.out.println("3.Check In Date");
-			System.out.println("4.Check Out Date");
+			System.out.println("2.Room type or room number");
+			System.out.println("3.Check-In Date");
+			System.out.println("4.Check-Out Date");
 			System.out.println("5.Status");
 			System.out.println("6.Number of Adult");
 			System.out.println("7.Number of Children");
@@ -308,42 +316,89 @@ public class Reservation {
 			switch(choice) {
 			case 1:
 				this.guest.updateGuest();
+				System.out.println("Guest information updated!");
 				isRecorded = true;
 				break;
 			case 2:
-				//TODO:update room type or room number
+				do {
+					System.out.println("The available rooms: ");
+					System.out.println("==========================================");
+					rms.printRoomInformation();
+					System.out.println("==========================================");
+					System.out.println("Enter the new roomID: ");
+					int rmNo = sc.nextInt();
+					if (rmNo > 0 && rmNo <= toSgRms) {
+						if (rms.getSingleRoom(rmNo-1).getRoomStatus().equals("vacant")) {
+							this.room = rms.getSingleRoom(rmNo-1);
+							_isRecorded = true;
+						} else {
+							System.out.println("The selected room is not available! Please choose another room!");
+						}
+					} else if (rmNo > toSgRms && rmNo <= toDbRms) {
+						if (rms.getSingleRoom(rmNo-toSgRms-1).getRoomStatus().equals("vacant")) {
+							this.room = rms.getSingleRoom(rmNo-toSgRms-1);
+							_isRecorded = true;
+						} else {
+							System.out.println("The selected room is not available! Please choose another room!");
+						}
+					} else if (rmNo > toDbRms && rmNo <= toDlRms) {
+						if (rms.getSingleRoom(rmNo-maxDbRms-1).getRoomStatus().equals("vacant")) {
+							this.room = rms.getSingleRoom(rmNo-toDbRms-1);
+							_isRecorded = true;
+						} else {
+							System.out.println("The selected room is not available! Please choose another room!");
+						}
+					} else if (rmNo > toDlRms && rmNo <= toPreRms) {
+						if (rms.getSingleRoom(rmNo-toDlRms-1).getRoomStatus().equals("vacant")) {
+							this.room = rms.getSingleRoom(rmNo-toDlRms-1);
+							_isRecorded = true;
+						} else {
+							System.out.println("The selected room is not available! Please choose another room!");
+						}
+					} else {
+						System.out.println("Invalid RoomID!");
+					}
+				} while (!_isRecorded);
+				System.out.println("Room information updated!");
 				isRecorded = true;
 				break;
 			case 3:
 				enterCheckInDate();
 				isRecorded = true;
+				System.out.println("Check-in date updated!");
 				break;
 			case 4:
 				enterCheckOutDate();
 				isRecorded = true;
+				System.out.println("Check-put date updated!");
 				break;
 			case 5:
-				System.out.println("Please enter the new status");
+				System.out.println("The current status: " + this.getStatus());
+				System.out.println("Please enter the new status(Confirmed/Checked-In/Expired/Cancelled)");
 				sc.nextLine();
 				String stat = sc.nextLine();
 				updateStatus(stat);
 				isRecorded = true;
+				System.out.println("Reservation status updated!");
 				break;
 			case 6:
 				System.out.println("Enter the new number of adult:");
 				this.noOfAdult = sc.nextInt();
 				isRecorded = true;
+				System.out.println("Number of adults updated!");
 				break;
 			case 7:
 				System.out.println("Enter the new number of children:");
 				this.noOfChildren = sc.nextInt();
 				isRecorded = true;
+				System.out.println("Number of children updated!");
 				break;
 			case 8:
 				System.out.println("Please enter the new credit card number for cilent");
 				sc.nextLine();
 		        this.billingInfo= sc.nextLine();	       
 				isRecorded = true;
+				System.out.println("Credit card information updated!");
 				break;
 			case 9:
 				System.out.println("Exiting...");
@@ -353,11 +408,10 @@ public class Reservation {
 				System.out.println("Invalid Option!");
 				break;		
 			}
-		} while (!isRecorded);
-		
+		} while (!isRecorded);	
 	}
 	
-	public int checkReservation(Reservation[] List,Date date,int roomId){ 
+	public int checkReservation(Reservation[] List, Date date, int roomId){ 
 		// This method checks if there's any reservation, returns 0 if there isn't and 1 if there is.
 		int check =0;
 		for(int i=0;i<List.length;i++)
@@ -395,6 +449,12 @@ public class Reservation {
 			setStatus(stat);
 		else
 			System.out.println("Invalid Status");
+	}
+	
+	public void enterRoomService(RoomService rmSvc) {
+		noOfServices++;
+		roomServices[noOfServices-1] = rmSvc;
+		System.out.println("Room service reserved!");
 	}
 
 	//below is the getter and setter method 
@@ -436,5 +496,9 @@ public class Reservation {
 	public Room getRoom() {return room;}
 	
 	public void setRoom(Room room) {this.room = room;}
+	
+	public int getNoOfRoomServices() {return noOfServices;}
+	
+	public RoomService[] getRoomServices() {return roomServices;}
 	
 }

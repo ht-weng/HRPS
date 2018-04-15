@@ -2,11 +2,13 @@ package HRPSapplication;
 
 import java.util.Scanner;
 
-public class Guest 
+public class Guest
 {
 	Scanner sc= new Scanner(System.in);
 	//unique identifier
 	private int guestID; 
+	//differentiate recorded guests from empty guests
+	private boolean isEmpty;
 	//personal information
 	private String name;
 	private String creditCardDetails;
@@ -22,6 +24,7 @@ public class Guest
 	//Constructor for recording guest information
 	public Guest(int a)
 	{
+		isEmpty = false;
 		totalGuests++;
 		System.out.println("Please enter information for new guest (guestID:"+(totalGuests)+"):");
 		guestID = totalGuests;
@@ -29,22 +32,27 @@ public class Guest
 		System.out.println("Please enter name: ");
 		name = sc.nextLine();
 		System.out.println("Guest name recorded!");
+		System.out.println("");
 
 		System.out.println("Please enter credit card number: ");
 		creditCardDetails = sc.nextLine();
 		System.out.println("Guest credit card recorded!");
+		System.out.println("");
     
 		System.out.println("Please enter address: ");
 		address = sc.nextLine();
 		System.out.println("Guest address recorded!");
+		System.out.println("");
  
 		System.out.println("Please enter country of residence: ");
 		country = sc.nextLine();
 		System.out.println("Guest country of residence recorded!");
+		System.out.println("");
     
 		System.out.println("Please enter gender(M for Male, F for Female, O for Other:");
 		gender = sc.nextLine();
 		System.out.println("Guest gender recorded!");
+		System.out.println("");
     
 		System.out.println("Please enter guest identity: ");
 		System.out.println("1: Passport");
@@ -74,18 +82,21 @@ public class Guest
 			}
 		} while(!isRecorded);
 		System.out.println("Guest identity recorded!");
+		System.out.println("");
     
 		System.out.println("Please enter nationality: ");
 		nationality = sc.nextLine();
 		System.out.println("Guest nationality recorded!");
+		System.out.println("");
     
 		System.out.println("Please enter phone number: ");
-		phone = sc.nextInt();
+		phone = sc.nextLong();
 		System.out.println("Guest phone number recorded!");
+		System.out.println("");
 	}
 
 	//Constructor for making empty guest list
-	public Guest() {}
+	public Guest() {isEmpty = true;}
 
 	
 	//method for updating guest information
@@ -177,7 +188,7 @@ public class Guest
 			case 8:
 				//update phone
 				System.out.println("Enter the updated phone number: ");
-				this.phone = sc.nextInt();
+				this.phone = sc.nextLong();
 				System.out.println("Guest phone number updated!");	
 				break;    
 			case 9:
@@ -201,10 +212,14 @@ public class Guest
 		System.out.println("Guest Nationality: " + nationality);
 		System.out.println("Guest Phone:  " + phone);
 	}
-      
+    
 	public static int getTotalGuests() {return totalGuests;}
 	
 	public String getName() {return name;}
 	
 	public String getCredit() {return creditCardDetails;}
+	
+	public int getGuestID() {return guestID;}
+	
+	public boolean getIsEmpty() {return isEmpty;}
 } 
