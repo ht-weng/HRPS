@@ -26,6 +26,7 @@ public class GuestMasterList {
 	    masterList[counter-1]= new Guest(0);	   
 	}
 	
+	//check if guest ID is valid
 	public static Boolean checkValid(int gID)
 	{
 	    if((gID<=counter)&(gID>=1))
@@ -37,6 +38,7 @@ public class GuestMasterList {
 	    }
 	}
 	
+	//
 	public Guest searchGuestByKeywords(GuestMasterList gml, String keyword) {
 		Guest nullResult = new Guest();
 		Guest[] resultList = new Guest[100];
@@ -75,7 +77,7 @@ public class GuestMasterList {
 		}
 	}
 	
-	
+	//getter methods
 	public int getCounter() {return counter;}
 	
 	public Guest[] getMasterList() {return masterList;}

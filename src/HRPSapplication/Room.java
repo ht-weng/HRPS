@@ -11,7 +11,9 @@ public class Room {
 	private RoomType roomType; 
 	private boolean smoking = false; 
 	private static int counter=0;
+	private String bedSize;//double, queen, king
 
+	//Constructor
 	public Room() {
 		counter++;
 		RoomType dum= new RoomType(5);
@@ -19,11 +21,12 @@ public class Room {
 		roomID = counter;
 	}
 	
+	//
 	public void updateRoomDetails() {
 		int choice;
 		boolean isRecorded = false;
 		do {
-			System.out.println("Select the attribute to updaet:");
+			System.out.println("Select the attribute to update:");
 			System.out.println("1.Status");
 			System.out.println("2.Smoking");
 			System.out.println("3.Exit");
@@ -53,6 +56,7 @@ public class Room {
 		}while (!isRecorded);
 	}
 	
+	//getter and setter methods
 	public static int getCounter() {return counter;}
 	
 	public int getRoomID() {return roomID;}
@@ -65,11 +69,20 @@ public class Room {
 	
 	public boolean getSmoking() {return smoking;} 
 	
+	public String getBedSize() {return bedSize;}
+	
 	public void setRoomType(RoomType type) {roomType = type;}
 	
-	public void setRoomStatus(String status) {this.status = status;}
+	public void setRoomStatus(String stat) {
+		if(stat.equals("vacant") || stat.equals("occupied") || stat.equals("reserved") || stat.equals("maintenance"))
+			this.status = stat;
+		else
+			System.out.println("Invalid status!");
+	}
 	
 	public void setRoomNumber(String number) {roomNumber = number;}
 	
 	public void setSmoking(Boolean smoking) {this.smoking = smoking;}
+	
+	public void setBedSize(String bed) {this.bedSize = bed;}
 }

@@ -4,6 +4,7 @@ public class RoomType {
 	private int dailyRate;    
 	private String roomName;
    
+	//Constructor
 	public RoomType(int sel) {
 		switch (sel) {
 		case 1:

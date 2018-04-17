@@ -26,34 +26,30 @@ public class Guest
 	{
 		isEmpty = false;
 		totalGuests++;
-		System.out.println("Please enter information for new guest (guestID:"+(totalGuests)+"):");
+		System.out.println("=========================================================");
+		System.out.println("Please enter information for new guest (guestID: "+(totalGuests)+"): ");
 		guestID = totalGuests;
-    
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter name: ");
 		name = sc.nextLine();
 		System.out.println("Guest name recorded!");
-		System.out.println("");
-
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter credit card number: ");
 		creditCardDetails = sc.nextLine();
 		System.out.println("Guest credit card recorded!");
-		System.out.println("");
-    
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter address: ");
 		address = sc.nextLine();
 		System.out.println("Guest address recorded!");
-		System.out.println("");
- 
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter country of residence: ");
 		country = sc.nextLine();
 		System.out.println("Guest country of residence recorded!");
-		System.out.println("");
-    
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter gender(M for Male, F for Female, O for Other:");
 		gender = sc.nextLine();
 		System.out.println("Guest gender recorded!");
-		System.out.println("");
-    
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter guest identity: ");
 		System.out.println("1: Passport");
 		System.out.println("2: Driving License");
@@ -82,23 +78,20 @@ public class Guest
 			}
 		} while(!isRecorded);
 		System.out.println("Guest identity recorded!");
-		System.out.println("");
-    
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter nationality: ");
 		nationality = sc.nextLine();
 		System.out.println("Guest nationality recorded!");
-		System.out.println("");
-    
+		System.out.println("---------------------------------------------------------");
 		System.out.println("Please enter phone number: ");
 		phone = sc.nextLong();
 		System.out.println("Guest phone number recorded!");
-		System.out.println("");
+		System.out.println("=========================================================");
 	}
 
 	//Constructor for making empty guest list
 	public Guest() {isEmpty = true;}
 
-	
 	//method for updating guest information
 	public void updateGuest()
 	{
@@ -117,37 +110,40 @@ public class Guest
 					+"|9. Exit                        |\n");
     
 			choice = sc.nextInt();
-			sc.nextLine();
-    
 			switch(choice)
 			{
 			case 1:
 				//update name
 				System.out.println("Enter the updated Guest Name: ");
+				sc.nextLine();
 				this.name = sc.nextLine();
 				System.out.println("Guest name updated!");
 				break;
 			case 2:
 				//update credit card number
 				System.out.println("Enter the updated Credit Card Number: ");
+				sc.nextLine();
 				this.creditCardDetails = sc.nextLine();
 				System.out.println("Guest credit card updated!");
 				break;
 			case 3:
 				//update address
 				System.out.println("Enter the updated address: ");
+				sc.nextLine();
 				this.address = sc.nextLine();
 				System.out.println("Guest address updated!");
 				break;
 			case 4:
 				//update country
 				System.out.println("Enter the updated country of residence: ");
+				sc.nextLine();
 				this.country = sc.nextLine();
 				System.out.println("Guest country of residence updated!");
 				break;
 			case 5:
 				//update gender
 				System.out.println("Enter the updated gender(M for Male, F for Female, O for Other");
+				sc.nextLine();
 				this.gender = sc.nextLine();
 				System.out.println("Guest gender updated!");
             	break;
@@ -163,11 +159,13 @@ public class Guest
 					switch(choice2) {
 					case 1:
 						System.out.println("Please enter passport number: ");
+						sc.nextLine();
 						this.identity = sc.nextLine();
 						isRecorded = true;
 						break;
 					case 2:
 						System.out.println("Please enter driving license number: ");
+						sc.nextLine();
 						this.identity = sc.nextLine();
 						isRecorded = true;
 						break;
@@ -182,12 +180,14 @@ public class Guest
 			case 7:
 				//update nationality
 				System.out.println("Enter the updated nationality: ");
+				sc.nextLine();
 				this.nationality = sc.nextLine();
 				System.out.println("Guest nationality updated!");	
 				break;
 			case 8:
 				//update phone
 				System.out.println("Enter the updated phone number: ");
+				sc.nextLine();
 				this.phone = sc.nextLong();
 				System.out.println("Guest phone number updated!");	
 				break;    
@@ -201,16 +201,26 @@ public class Guest
 
 	public void printGuestDetail()
 	{
+		System.out.println("             Guest Information");
+		System.out.println("==============================================");
 		System.out.println("Guest ID: " + guestID);
-		System.out.println("======================================");
-		System.out.println("Guest Name: " + name);    
-		System.out.println("Guest Credit Number:" + creditCardDetails);    
-		System.out.println("Guest Address: " + address);
-		System.out.println("Guest Country: " + country);
-		System.out.println("Guest Gender: " + gender);
-		System.out.println("Guest Identity: " + identity);
-		System.out.println("Guest Nationality: " + nationality);
-		System.out.println("Guest Phone:  " + phone);
+		System.out.println("----------------------------------------------");
+		System.out.println("Name: " + name);    
+		System.out.println("----------------------------------------------");
+		System.out.println("Gender: " + gender);
+		System.out.println("----------------------------------------------");
+		System.out.println("Identity: " + identity);
+		System.out.println("----------------------------------------------");
+		System.out.println("Nationality: " + nationality);
+		System.out.println("----------------------------------------------");
+		System.out.println("Country of Residence: " + country);
+		System.out.println("----------------------------------------------");
+		System.out.println("Phone:  " + phone);
+		System.out.println("----------------------------------------------");
+		System.out.println("Credit Card Number:" + creditCardDetails);    
+		System.out.println("----------------------------------------------");
+		System.out.println("Address: " + address);		
+		System.out.println("==============================================");
 	}
     
 	public static int getTotalGuests() {return totalGuests;}
