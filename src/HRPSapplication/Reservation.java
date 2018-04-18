@@ -325,6 +325,7 @@ public class Reservation {
 	public void checkExpiry() {	 
 		Date now;
 	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.HOUR_OF_DAY, -1);
 	    now = cal.getTime();
 	    if(now.after(checkIn) && status.equals("Confirmed")) {
 	    	updateStatus("Expired");

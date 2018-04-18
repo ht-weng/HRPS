@@ -4,6 +4,7 @@ import HRPSapplication.GuestMasterList;
 import HRPSapplication.HotelRooms;
 import HRPSapplication.Reservation;
 import HRPSapplication.RoomService;
+import HRPSapplication.SerializeDB;
 import java.util.Scanner;
 
 public class App {
@@ -231,7 +232,10 @@ public class App {
 	    				String svcName = sc.nextLine();
 	    				System.out.println("Please enter the service price: ");
 	    				int svcPrice = sc.nextInt();
-	    				rmServices[noOfServices-1] = new RoomService(svcName, svcPrice);
+	    				System.out.println("Please enter the service description: ");
+	    				sc.nextLine();
+	    				String description = sc.nextLine();
+	    				rmServices[noOfServices-1] = new RoomService(svcName, svcPrice, description);
 	    				System.out.println("Room service recorded!");
 	    				isRecorded = true;
 	    				break;
