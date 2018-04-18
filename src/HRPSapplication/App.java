@@ -52,6 +52,7 @@ public class App {
 	    	switch (choice) {
 	    	case 1://Create/Update/Search guests detail
 	    		do {
+	    			System.out.println();
 	    			System.out.println("1: Create guest details");
 	    			System.out.println("2: Update guest details");
 	    			System.out.println("3: Search guest details");
@@ -64,29 +65,40 @@ public class App {
 	    				isRecorded = true;
 	    				break;
 	    			case 2:
-	    				System.out.println("Please enter the search keyword: ");
-	    				sc.nextLine();
-	    				keyword = sc.nextLine();
-	    				if (!gml.searchGuestByKeywords(gml, keyword).getIsEmpty()) {//check if the guest exists
-	    					gml.searchGuestByKeywords(gml, keyword).updateGuest();
-	    					isRecorded = true;
+	    				if (gml.getCounter() > 0) {
+		    				System.out.println("Please enter the search keyword: ");
+		    				sc.nextLine();
+		    				keyword = sc.nextLine();
+		    				if (!gml.searchGuestByKeywords(gml, keyword).getIsEmpty()) {//check if the guest exists
+		    					gml.searchGuestByKeywords(gml, keyword).updateGuest();
+		    					isRecorded = true;
+		    				} else {
+		    					System.out.println("Guest does not exist!");
+		    					System.out.println();
+		    					isRecorded = false;
+		    				}
 	    				} else {
-	    					System.out.println("Guest does not exist!");
+	    					System.out.println("None guest exists! Please create the guest details!");
 	    					isRecorded = false;
 	    				}
 	    				break;
 	    			case 3:
-	    				System.out.println("Please enter the search keyword: ");
-	    				sc.nextLine();
-	    				keyword = sc.nextLine();
-	    				if (!gml.searchGuestByKeywords(gml, keyword).getIsEmpty()) {//check if the guest exists
-	    					gml.searchGuestByKeywords(gml, keyword).printGuestDetail();;
-	    					isRecorded = true;
+	    				if (gml.getCounter() > 0) {
+		    				System.out.println("Please enter the search keyword: ");
+		    				sc.nextLine();
+		    				keyword = sc.nextLine();
+		    				if (!gml.searchGuestByKeywords(gml, keyword).getIsEmpty()) {//check if the guest exists
+		    					gml.searchGuestByKeywords(gml, keyword).printGuestDetail();;
+		    					isRecorded = true;
+		    				} else {
+		    					System.out.println("Guest does not exist!");
+		    					System.out.println();
+		    					isRecorded = false;
+		    				}
 	    				} else {
-	    					System.out.println("Guest does not exist!");
+	    					System.out.println("None guest exists! Please create the guest details!");
 	    					isRecorded = false;
 	    				}
-	    				isRecorded = true;
 	    				break;
 	    			case 4:
 	    				isRecorded = true;
@@ -101,6 +113,7 @@ public class App {
 	    	case 2://Create/Update/Remove/Print reservation
 	    		isRecorded = false;
 	    		do {
+	    			System.out.println();
 	    			System.out.println("1: Create reservation");
 	    			System.out.println("2: Update reservation");
 	    			System.out.println("3: Remove reservation");
@@ -116,35 +129,50 @@ public class App {
 	    				break;
 	    			case 2:
 	    				int resID, index;
-	    				System.out.println("Enter the reservation ID: ");
-	    				resID = sc.nextInt();
-	    				index = Reservation.searchReservation(reservations, resID, noOfReservations);
-	    				if (index > 0) {
-	    					reservations[index].updateReservation(rooms, reservations, noOfReservations);
-	    					isRecorded = true;
+	    				if (noOfReservations > 0) {
+		    				System.out.println("Enter the reservation ID: ");
+		    				resID = sc.nextInt();
+		    				index = Reservation.searchReservation(reservations, resID, noOfReservations);
+		    				if (index > 0) {
+		    					reservations[index].updateReservation(rooms, reservations, noOfReservations);
+		    					isRecorded = true;
+		    				} else {
+		    					System.out.println("Reservation does not exist!");
+		    					isRecorded = false;
+		    				}
 	    				} else {
-	    					System.out.println("Reservation does not exist!");
+	    					System.out.println("None reservation exists! Please create the reservation!");
 	    					isRecorded = false;
 	    				}
 	    				break;
 	    			case 3:
-	    				System.out.println("Enter the reservation ID: ");
-	    				resID = sc.nextInt();
-	    				index = Reservation.searchReservation(reservations, resID, noOfReservations);
-	    				if (index > 0) {
-	    					reservations[index].updateStatus("Cancelled");
-	    					reservations[index].getRoom().setRoomStatus("vacant");
-	    					isRecorded = true;
+	    				if (noOfReservations > 0) {
+		    				System.out.println("Enter the reservation ID: ");
+		    				resID = sc.nextInt();
+		    				index = Reservation.searchReservation(reservations, resID, noOfReservations);
+		    				if (index > 0) {
+		    					reservations[index].updateStatus("Cancelled");
+		    					reservations[index].getRoom().setRoomStatus("vacant");
+		    					isRecorded = true;
+		    				} else {
+		    					System.out.println("Reservation does not exist!");
+		    					isRecorded = false;
+		    				}
 	    				} else {
-	    					System.out.println("Reservation does not exist!");
+	    					System.out.println("None reservation exists! Please create the reservation!");
 	    					isRecorded = false;
 	    				}
 	    				break;
 	    			case 4:
-	    				for (int i = 0; i < noOfReservations; i++) {
-	    					reservations[i].reservationReceipt();
+	    				if (noOfReservations > 0 ) {
+	    					for (int i = 0; i < noOfReservations; i++) {
+		    					reservations[i].reservationReceipt();
+		    					isRecorded = true;
+		    				}
+	    				} else {
+	    					System.out.println("None reservation exists! Please create the reservation!");
+	    					isRecorded = false;
 	    				}
-	    				isRecorded = true;
 	    				break;
 	    			case 5:
 	    				System.out.println("Exiting...");
@@ -170,13 +198,17 @@ public class App {
 	    		int resID = sc.nextInt();
 	    		int index = Reservation.searchReservation(reservations, resID, noOfReservations);
 	    		if (index != -1) {
-		    		System.out.println("The current room service list: ");
-		    		for (int i = 0; i < noOfServices; i++) {
-		    			System.out.println(noOfServices + ": " + rmServices[i].getName());
-		    		}
-		    		System.out.println("Enter the room service ID: ");
-		    		int rmSvcID = sc.nextInt();
-		    		reservations[index].enterRoomService(rmServices[rmSvcID-1]);;
+	    			if (noOfServices > 0) {
+			    		System.out.println("The current room service list: ");
+			    		for (int i = 0; i < noOfServices; i++) {
+			    			System.out.println((i+1) + ": " + rmServices[i].getName());
+			    		}
+			    		System.out.println("Enter the room service ID: ");
+			    		int rmSvcID = sc.nextInt();
+			    		reservations[index].enterRoomService(rmServices[rmSvcID-1]);
+	    			} else {
+	    				System.out.println("None room service available! Please create the room services!");
+	    			}
 	    		} else {
 	    			System.out.println("Reservation does not exist!");
 	    		}
@@ -184,6 +216,7 @@ public class App {
 	    	case 5://Create/Update/Remove room service menu items
 	    		isRecorded = false;
 	    		do {
+	    			System.out.println();
 	    			System.out.println("1: Create room service");
 	    			System.out.println("2: Update room service");
 	    			System.out.println("3: Remove room service");
@@ -203,33 +236,42 @@ public class App {
 	    				isRecorded = true;
 	    				break;
 	    			case 2://update
-	    				System.out.println("The current room service list: ");
-	    				for (int i = 0; i < noOfServices; i++) {
-	    					System.out.println(noOfServices + ": " + rmServices[i].getName());
-	    				}
-	    				System.out.println("Enter the room service ID: ");
-	    				int rmSvcID = sc.nextInt();
-	    				if (rmSvcID > 0 && rmSvcID <= noOfServices) {
-	    					rmServices[rmSvcID-1].updateService();
-	    					isRecorded = true;
+	    				if (noOfServices > 0) {
+	    					System.out.println("The current room service list: ");
+		    				for (int i = 0; i < noOfServices; i++) {
+		    					System.out.println((i+1) + ": " + rmServices[i].getName());
+		    				}
+		    				System.out.println("Enter the room service ID: ");
+		    				int rmSvcID = sc.nextInt();
+		    				if (rmSvcID > 0 && rmSvcID <= noOfServices) {
+		    					rmServices[rmSvcID-1].updateService();
+		    					isRecorded = true;
+		    				} else {
+		    					System.out.println("Room service does not exist!");
+		    				}
 	    				} else {
-	    					System.out.println("Room service does not exist!");
-	    				}
+		    				System.out.println("None room service available! Please create the room services!");
+		    			}
 	    				break;
 	    			case 3://remove
-	    				System.out.println("The current room service list: ");
-	    				for (int i = 0; i < noOfServices; i++) {
-	    					System.out.println(noOfServices + ": " + rmServices[i].getName());
-	    				}
-	    				System.out.println("Enter the room service ID: ");
-	    				rmSvcID = sc.nextInt();
-	    				if (rmSvcID > 0 && rmSvcID <= noOfServices) {
-	    					RoomService.removeRoomService(rmServices, rmSvcID, noOfServices);
-	    					System.out.println("Service removed!");
-	    					isRecorded = true;
+	    				if (noOfServices > 0) {
+		    				System.out.println("The current room service list: ");
+		    				for (int i = 0; i < noOfServices; i++) {
+		    					System.out.println((i+1) + ": " + rmServices[i].getName());
+		    				}
+		    				System.out.println("Enter the room service ID: ");
+		    				int rmSvcID = sc.nextInt();
+		    				if (rmSvcID > 0 && rmSvcID <= noOfServices) {
+		    					RoomService.removeRoomService(rmServices, rmSvcID, noOfServices);
+		    					System.out.println("Service removed!");
+		    					noOfServices--;
+		    					isRecorded = true;
+		    				} else {
+		    					System.out.println("Room service does not exist!");
+		    				}
 	    				} else {
-	    					System.out.println("Room service does not exist!");
-	    				}
+		    				System.out.println("None room service available! Please create the room services!");
+		    			}
 	    				break;
 	    			case 4:
 	    				System.out.println("Exiting...");
@@ -242,7 +284,7 @@ public class App {
 	    		}while(!isRecorded);
 	    		break;
 	    	case 6://Check room availability
-	    		System.out.println("Enter the room ID:");
+	    		System.out.println("Enter the room ID(1-" + BY_PRESIDENT_RMS + "):");
 	    		rID = sc.nextInt();
 	    		if (rID > 0 && rID <= BY_PRESIDENT_RMS) {
 	    			rm = rooms.getRoomByRoomID(rID);
@@ -284,7 +326,7 @@ public class App {
 	    					res.checkedIn();
 	    					isRecorded = true;
 	    				} else {
-	    					System.out.println("Guest does not exist!");
+	    					System.out.println("Reservation does not exist!");
 	    					isRecorded = false;
 	    				}
 	    				break;

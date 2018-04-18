@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class RoomService {
 	private String name;
 	private int price;
+	Scanner sc = new Scanner(System.in);
 	
 	//Null constructor
 	public RoomService() {}
@@ -16,7 +17,6 @@ public class RoomService {
 	}
 	
 	public void updateService() {
-		Scanner sc = new Scanner(System.in);
 		int choice;
 		System.out.println("Select the attribute to update: ");
 		System.out.println("1: Room service name");
@@ -38,7 +38,6 @@ public class RoomService {
 			System.out.println("Invalid option!");
 			break;
 		}
-		sc.close();
 	}
 	
 	public static void removeRoomService(RoomService[] rmSvcs, int index, int noOfSvcs) {

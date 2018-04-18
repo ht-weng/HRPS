@@ -87,6 +87,8 @@ public class Guest
 		phone = sc.nextLong();
 		System.out.println("Guest phone number recorded!");
 		System.out.println("=========================================================");
+		//print recorded info
+		printGuestDetail();
 	}
 
 	//Constructor for making empty guest list
@@ -95,6 +97,8 @@ public class Guest
 	//method for updating guest information
 	public void updateGuest()
 	{
+		System.out.println("Current Guest Info: ");
+		printGuestDetail();
 		int choice;
 		System.out.println("");
 		do{
@@ -197,6 +201,9 @@ public class Guest
 				break;
 			}
 		}while(choice > 0 && choice < 10);		
+		//print recorded info
+		System.out.println("New Guest Info:");
+		printGuestDetail();
 	}	
 
 	public void printGuestDetail()

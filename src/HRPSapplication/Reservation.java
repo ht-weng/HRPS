@@ -73,10 +73,10 @@ public class Reservation {
 	        System.out.println("");
 	        System.out.println("Enter a Room ID(1-" + BY_PRESIDENT_RMS + "): ");
 	        int rID = sc.nextInt();
-	        boolean isRecorded = false;
-	        String rmStatus = this.getRoom().getRoomStatus();
+	        String rmStatus = rooms.getRoomByRoomID(rID).getRoomStatus();
 	        
 	        //check if room is available
+	        boolean isRecorded = false;
 	        do {
 	        	//check if room ID is in the range
 	            if(rID < 1 || rID > BY_PRESIDENT_RMS) {
@@ -92,7 +92,18 @@ public class Reservation {
 	                }
 	            } else if(rID > 0 && rID <= BY_SINGLE_RMS) { 
 	            	//reserve a Single Room
-	            	if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room is available
+	            	if (rmStatus.equals("vacant") || rmStatus.equals("maintenance")) {//available
+	            		room = rooms.getSingleRoom(rID-1);
+	                    if (isWalkIn) {
+	                    	rooms.getSingleRoom(rID-1).setRoomStatus("occupied");
+	                    	System.out.println("Single room " + room.getRoomNumber() + " checked-in!");
+	                    } else {
+	                    	rooms.getSingleRoom(rID-1).setRoomStatus("reserved");
+	                    	System.out.println("Single room " + room.getRoomNumber() + " reserved!");
+	                    }
+	                    isRecorded = true;
+	            	} else if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && 
+	            			checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room is available
 	            		System.out.println("Room is unavailable!");
 	                    System.out.println("=========================================");
 	                    System.out.println("1.Enter another room ID");
@@ -104,7 +115,7 @@ public class Reservation {
 		                } else {
 		                	return;
 		                }
-	                } else {
+	                } else {//available
 	                    room = rooms.getSingleRoom(rID-1);
 	                    if (isWalkIn) {
 	                    	rooms.getSingleRoom(rID-1).setRoomStatus("occupied");
@@ -117,7 +128,18 @@ public class Reservation {
 	                }
 	            } else if(rID > BY_SINGLE_RMS && rID <= BY_DOUBLE_RMS) { 
 	            	//reserve a Double Room
-	            	if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room is available
+	            	if (rmStatus.equals("vacant") || rmStatus.equals("maintenance")) {//available
+	            		room=rooms.getDoubleRoom(rID-BY_SINGLE_RMS-1);
+	                	if (isWalkIn) {
+	                    	rooms.getDoubleRoom(rID-BY_SINGLE_RMS-1).setRoomStatus("occupied");
+	                    	System.out.println("Double room " + room.getRoomNumber() + " checked-in!");
+	                    } else {
+	                    	rooms.getDoubleRoom(rID-BY_SINGLE_RMS-1).setRoomStatus("reserved");
+	                    	System.out.println("Double room " + room.getRoomNumber() + " reserved!");
+	                    }
+	                    isRecorded = true;
+	            	}else if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && 
+	            			checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room is available
 	            		System.out.println("Room is unavailable!");
 	            		System.out.println("=========================================");
 	                    System.out.println("1.Enter another room ID");
@@ -129,7 +151,7 @@ public class Reservation {
 		                } else {
 		                	return;
 		                }
-	                } else {
+	                } else {//available
 	                	room=rooms.getDoubleRoom(rID-BY_SINGLE_RMS-1);
 	                	if (isWalkIn) {
 	                    	rooms.getDoubleRoom(rID-BY_SINGLE_RMS-1).setRoomStatus("occupied");
@@ -142,7 +164,18 @@ public class Reservation {
 	                }
 	            } else if(rID>BY_DOUBLE_RMS && rID<=BY_DELUXE_RMS) {  
 	            	//reserve a Deluxe Room
-	            	if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room is available
+	            	if (rmStatus.equals("vacant") || rmStatus.equals("maintenance")) {//available
+	            		 room=rooms.getDeluxeRoom(rID-BY_DOUBLE_RMS-1);
+		                    if (isWalkIn) {
+		                    	rooms.getDeluxeRoom(rID-BY_DOUBLE_RMS-1).setRoomStatus("occupied");
+		                    	System.out.println("Deluxe room " + room.getRoomNumber() + " checked-in!");
+		                    } else {
+		                    	rooms.getDeluxeRoom(rID-BY_DOUBLE_RMS-1).setRoomStatus("reserved");
+		                    	System.out.println("Deluxe room " + room.getRoomNumber() + " reserved!");
+		                    }
+		                    isRecorded = true;
+	            	} else if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && 
+	            			checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room has a reservation
 	            		System.out.println("Room is unavailable!");
 	            		System.out.println("=========================================");
 	                    System.out.println("1.Enter another room ID");
@@ -154,7 +187,7 @@ public class Reservation {
 		                } else {
 		                	return;
 		                }
-	                } else {
+	                } else {//available
 	                    room=rooms.getDeluxeRoom(rID-BY_DOUBLE_RMS-1);
 	                    if (isWalkIn) {
 	                    	rooms.getDeluxeRoom(rID-BY_DOUBLE_RMS-1).setRoomStatus("occupied");
@@ -167,7 +200,18 @@ public class Reservation {
 	                }
 	            } else if(rID>BY_DELUXE_RMS && rID<=BY_PRESIDENT_RMS) {
 	            	//reserve a Presidential Room
-	            	if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room is available
+	            	if (rmStatus.equals("vacant") || rmStatus.equals("maintenance")) {//available
+	            		room=rooms.getPresidentRoom(rID-BY_DELUXE_RMS-1);
+	                    if (isWalkIn) {
+	                    	rooms.getPresidentRoom(rID-BY_DELUXE_RMS-1).setRoomStatus("occupied");
+	                    	System.out.println("President room " + room.getRoomNumber() + " checked-in!");
+	                    } else {
+	                    	rooms.getPresidentRoom(rID-BY_DELUXE_RMS-1).setRoomStatus("reserved");
+	                    	System.out.println("President room " + room.getRoomNumber() + " reserved!");
+	                    }
+	                    isRecorded = true;
+	            	}else if((rmStatus.equals("reserved") || rmStatus.equals("occupied")) && 
+	            			checkReservation(reservations, this.checkIn, this.checkOut, rID, noOfReservations)) {//check if room is available
 	            		System.out.println("Room is unavailable!");
 	            		System.out.println("=========================================");
 	                    System.out.println("1.Enter another room ID");
@@ -179,7 +223,7 @@ public class Reservation {
 		                } else {
 		                	return;
 		                }
-	                } else {
+	                } else {//available
 	                    room=rooms.getPresidentRoom(rID-BY_DELUXE_RMS-1);
 	                    if (isWalkIn) {
 	                    	rooms.getPresidentRoom(rID-BY_DELUXE_RMS-1).setRoomStatus("occupied");
@@ -262,6 +306,8 @@ public class Reservation {
 		System.out.println("-------------------------------------------");
 		System.out.println("Room Number: " + room.getRoomNumber());
 		System.out.println("Room Type: " + room.getRoomType().getRoomType());
+		System.out.println("-------------------------------------------");
+		System.out.println("Bed size: " + this.getRoom().getBedSize());
 		System.out.println("-------------------------------------------");
 		System.out.println("Credit Card Number: " + billingInfo);
 		System.out.println("-------------------------------------------");
@@ -406,6 +452,9 @@ public class Reservation {
 		boolean isRecorded = false, _isRecorded = false;
 		int choice;
 		String rmStatus = this.getRoom().getRoomStatus();
+		
+		System.out.println("Current Reservation Info: ");
+		reservationReceipt();
 		
 		do {
 			System.out.println("Select the attribute to update:");
@@ -579,6 +628,9 @@ public class Reservation {
 				break;		
 			}
 		} while (!isRecorded);	
+		//print new reservation info
+		System.out.println("New reservation info: ");
+		reservationReceipt();
 	}
 	
 	//search confirmed reservation by guest name keywords
