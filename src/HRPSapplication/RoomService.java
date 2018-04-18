@@ -2,22 +2,35 @@ package HRPSapplication;
 
 import java.util.Scanner;
 
+/**
+ * The class managing room service information
+ */
 public class RoomService {
 	private String name;
 	private int price;
 	private String description;
 	Scanner sc = new Scanner(System.in);
 	
-	//Null constructor
+	/**
+	 * Constructor to generate a null room service
+	 */
 	public RoomService() {}
 	
-	//Constructor
+	/**
+	 * Constructor to enter a room service
+	 * @param _name Service name
+	 * @param _price Service price
+	 * @param _description Service description
+	 */
 	public RoomService(String _name, int _price, String _description) {
 		name = _name;
 		price = _price;
 		description = _description;
 	}
 	
+	/**
+	 * Update service information
+	 */
 	public void updateService() {
 		int choice;
 		System.out.println("Select the attribute to update: ");
@@ -49,6 +62,12 @@ public class RoomService {
 		}
 	}
 	
+	/**
+	 * Remove a room service
+	 * @param rmSvcs Array of room services
+	 * @param index The index of the room service to be removed
+	 * @param noOfSvcs Number of room services
+	 */
 	public static void removeRoomService(RoomService[] rmSvcs, int index, int noOfSvcs) {
     	if (index == noOfSvcs) {
     	} else {

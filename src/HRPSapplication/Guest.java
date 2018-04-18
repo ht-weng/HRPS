@@ -2,26 +2,62 @@ package HRPSapplication;
 
 import java.util.Scanner;
 
+/**
+ * The class managing single guest information
+ *
+ */
 public class Guest
 {
 	Scanner sc= new Scanner(System.in);
-	//unique identifier
+	/**
+	 * Uniquely identify a guest
+	 */
 	private int guestID; 
-	//differentiate recorded guests from empty guests
+	/**
+	 * Differentiate recorded guests from null guests
+	 */
 	private boolean isEmpty;
-	//personal information
+	/**
+	 * Guest name
+	 */
 	private String name;
+	/**
+	 * Credit card number
+	 */
 	private String creditCardDetails;
+	/**
+	 * Guest address
+	 */
 	private String address;
+	/**
+	 * Country of residence
+	 */
 	private String country;
+	/**
+	 * Guest gender
+	 */
 	private String gender;
+	/**
+	 * Passport/Driving license number
+	 */
 	private String identity;
+	/**
+	 * Guest nationality
+	 */
 	private String nationality;
+	/**
+	 * Guest phone number
+	 */
 	private long phone;
-	//number of guests
+	/**
+	 * Number of guests
+	 */
 	private static int totalGuests=0;
 
-	//Constructor for recording guest information
+	/**
+	 * Constructor for recording guest information
+	 * @param a Differentiate a null constructor from the normal one
+	 */
 	public Guest(int a)
 	{
 		isEmpty = false;
@@ -91,10 +127,14 @@ public class Guest
 		printGuestDetail();
 	}
 
-	//Constructor for making empty guest list
+	/**
+	 * Constructor for making null guest list
+	 */
 	public Guest() {isEmpty = true;}
 
-	//method for updating guest information
+	/**
+	 * Update guest information attributes
+	 */
 	public void updateGuest()
 	{
 		System.out.println("Current Guest Info: ");
@@ -206,6 +246,9 @@ public class Guest
 		printGuestDetail();
 	}	
 
+	/**
+	 * Print guest detailed information
+	 */
 	public void printGuestDetail()
 	{
 		System.out.println("             Guest Information");
@@ -230,6 +273,7 @@ public class Guest
 		System.out.println("==============================================");
 	}
     
+	//getter methods
 	public static int getTotalGuests() {return totalGuests;}
 	
 	public String getName() {return name;}

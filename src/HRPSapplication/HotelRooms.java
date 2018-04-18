@@ -2,22 +2,48 @@ package HRPSapplication;
 
 import HRPSapplication.Room;
 
+/**
+ * The class managing information of all hotel rooms
+ */
 public class HotelRooms {
 	 
+	/**
+	 * Array of single rooms
+	 */
 	private Room[] singleRooms;
+	/**
+	 * Array of double rooms
+	 */
 	private Room[] doubleRooms;
+	/**
+	 * Array of deluxe rooms
+	 */
 	private Room[] deluxeRooms;
+	/**
+	 * Array of president rooms
+	 */
 	private Room[] presidentRooms;
 
 	public static final int MAX_SINGLE_ROOMS=20;
 	public static final int MAX_DOUBLE_ROOMS=20;
 	public static final int MAX_DELUXE_ROOMS=6;
 	public static final int MAX_PRESIDENT_ROOMS=2;
+	/**
+	 * Number of single and double rooms
+	 */
 	public static final int BY_DOUBLE_ROOMS = MAX_SINGLE_ROOMS + MAX_DOUBLE_ROOMS;
+	/**
+	 * Number of single, double rooms and deluxe rooms
+	 */
 	public static final int BY_DELUXE_ROOMS = BY_DOUBLE_ROOMS + MAX_DELUXE_ROOMS;
+	/**
+	 * Total number of rooms
+	 */
 	public static final int BY_PRESIDENT_ROOMS = BY_DELUXE_ROOMS + MAX_PRESIDENT_ROOMS;
 	
-	//Constructor
+	/**
+	 * Constructor to build an array of rooms
+	 */
 	public HotelRooms()
 	{
 		//constructs room lists
@@ -102,8 +128,14 @@ public class HotelRooms {
 		deluxeRooms=deluxe;
 	}
 
-	//count room under different status
-	//by changing _status to "vacant"/"occupied"/"reserved"/"maintenance"
+	/**
+	 * Count room under different status 
+	 * By changing _status to "vacant"/"occupied"/"reserved"/"maintenance"
+	 * @param rooms Array of rooms
+	 * @param total_room_number Total number of rooms
+	 * @param _status Room status
+	 * @return Number of rooms of the input room status
+	 */
 	public static int countRooms(Room[] rooms, int total_room_number, String _status) {
 		int counter = 0;
 		for (int i = 0; i < total_room_number; i++) {
@@ -113,7 +145,13 @@ public class HotelRooms {
 		return counter;
 	}
 	
-	//print occupancy info for one room type
+	/**
+	 * Print occupancy info for one room type
+	 * @param rooms Array of rooms
+	 * @param roomType Room type
+	 * @param occNo Number of occupied rooms
+	 * @param total_room_number Total number of rooms
+	 */
 	public static void printOccupiedRoomInfo(Room[] rooms, String roomType, int occNo, int total_room_number) {
 		System.out.println("----------------------------------------------------------------------");
 		System.out.println(roomType + ": " + occNo + " out of " + total_room_number + " occupied.");
@@ -129,31 +167,45 @@ public class HotelRooms {
 		System.out.println("----------------------------------------------------------------------");
 	}
 	
+	/**
+	 * Print all occupied single rooms
+	 */
 	public void printOccupiedSingleRooms() {
 		int occupied_counter;
 		occupied_counter = countRooms(singleRooms, MAX_SINGLE_ROOMS, "occupied");
 		printOccupiedRoomInfo(singleRooms, "Single Room", occupied_counter, MAX_SINGLE_ROOMS);
 	}
 	
+	/**
+	 * Print all occupied double rooms
+	 */
 	public void printOccupiedDoubleRooms() {
 		int occupied_counter;
 		occupied_counter = countRooms(doubleRooms, MAX_DOUBLE_ROOMS, "occupied");
 		printOccupiedRoomInfo(doubleRooms, "Double Room", occupied_counter, MAX_DOUBLE_ROOMS);
 	}
 	
+	/**
+	 * Print all occupied deluxe rooms
+	 */
 	public void printOccupiedDeluxeRooms() {
 		int occupied_counter;
 		occupied_counter = countRooms(deluxeRooms, MAX_DELUXE_ROOMS, "occupied");
 		printOccupiedRoomInfo(deluxeRooms, "Deluxe Room", occupied_counter, MAX_DELUXE_ROOMS);
 	}
 	
+	/**
+	 * Print all occupied president rooms
+	 */
 	public void printOccupiedPresidentRooms() {
 		int occupied_counter;
 		occupied_counter = countRooms(presidentRooms, MAX_PRESIDENT_ROOMS, "occupied");
 		printOccupiedRoomInfo(presidentRooms, "President Room", occupied_counter, MAX_PRESIDENT_ROOMS);
 	}
 	
-	//print occupancy summary
+	/**
+	 * Print occupancy summary
+	 */
 	public void printOccupiedRoomSummary() {		
 		System.out.println("Room Occupancy Rate:");
 		System.out.println("==========================================================");  
@@ -164,7 +216,14 @@ public class HotelRooms {
 		System.out.println("==========================================================");  
 	}
 	
-	//print room status info for one room type
+	/**
+	 * Print room status info for one room type
+	 * @param rooms Array of rooms
+	 * @param roomType Room type
+	 * @param total_room_number Total number of rooms
+	 * @param _status Room status
+	 * @param counter Number of rooms under certain room status
+	 */
 	public static void printRoomStatusInfo(Room[] rooms, String roomType, int total_room_number, String _status, int counter) {
 		System.out.println(roomType + "(Room ID|Room Number): ");
 		if (counter > 0) {
@@ -178,6 +237,9 @@ public class HotelRooms {
 		}
 	}
 	
+	/**
+	 * Print all vacant rooms
+	 */
 	public void printVacantRooms() {
 		int singleCounter, doubleCounter, deluxeCounter, presidentCounter;
 		singleCounter = countRooms(singleRooms, MAX_SINGLE_ROOMS, "vacant");
@@ -193,6 +255,9 @@ public class HotelRooms {
 		System.out.println("==========================================================");  
 	}
 	
+	/**
+	 * Print all occupied rooms
+	 */
 	public void printOccupiedRooms() {
 		int singleCounter, doubleCounter, deluxeCounter, presidentCounter;
 		singleCounter = countRooms(singleRooms, MAX_SINGLE_ROOMS, "occupied");
@@ -208,6 +273,9 @@ public class HotelRooms {
 		System.out.println("==========================================================");  
 	}
 	
+	/**
+	 * Print all reserved rooms
+	 */
 	public void printReservedRooms() {
 		int singleCounter, doubleCounter, deluxeCounter, presidentCounter;
 		singleCounter = countRooms(singleRooms, MAX_SINGLE_ROOMS, "reserved");
@@ -223,6 +291,9 @@ public class HotelRooms {
 		System.out.println("==========================================================");  
 	}
 	
+	/**
+	 * Print all rooms under maintenance
+	 */
 	public void printRoomsUnderMaintenance() {
 		int singleCounter, doubleCounter, deluxeCounter, presidentCounter;
 		singleCounter = countRooms(singleRooms, MAX_SINGLE_ROOMS, "maintenance");
@@ -238,7 +309,9 @@ public class HotelRooms {
 		System.out.println("==========================================================");  
 	}
 	
-	//print room status summary
+	/**
+	 * Print room status summary
+	 */
 	public void printRoomStatusSummary() {
 		System.out.println("");
 		printVacantRooms();
@@ -247,7 +320,12 @@ public class HotelRooms {
 		printRoomsUnderMaintenance();
 		System.out.println("");
 	}
-	//
+	
+	/**
+	 * Search room by room ID
+	 * @param rID Room ID
+	 * @return Room
+	 */
 	public Room getRoomByRoomID(int rID) {
     	if (rID > 0 && rID <=MAX_SINGLE_ROOMS) {
     		return this.getSingleRoom(rID-1);

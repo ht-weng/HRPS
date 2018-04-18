@@ -3,17 +3,43 @@ package HRPSapplication;
 import HRPSapplication.RoomType;
 import java.util.Scanner;
 
+/**
+ * The class managing one room's information
+ */
 public class Room {
 	Scanner sc = new Scanner(System.in);
+	/**
+	 * Uniquely identify a room
+	 */
 	private int roomID;
+	/**
+	 * Room number
+	 */
 	private String roomNumber;    
-	private String status="vacant";//vacant,occupied,reserved,maintenance  
-	private String bedSize;//double, queen, king
+	/**
+	 * Room status can be vacant/occupied/reserved/maintenance. Default status is vacant
+	 */
+	private String status="vacant";
+	/**
+	 * Bed size can be double/queen/king, depending on the room type
+	 */
+	private String bedSize;
+	/**
+	 * Room type can be single/double/deluxe/president
+	 */
 	private RoomType roomType; 
+	/**
+	 * Smoking condition
+	 */
 	private boolean smoking = false; 
+	/**
+	 * Count the number of rooms to set the room IF
+	 */
 	private static int counter=0;
 	
-	//Constructor
+	/**
+	 * Constructor to initialize a null room
+	 */
 	public Room() {
 		counter++;
 		RoomType dum= new RoomType(5);
@@ -21,7 +47,9 @@ public class Room {
 		roomID = counter;
 	}
 	
-	//
+	/**
+	 * Update room details
+	 */
 	public void updateRoomDetails() {
 		int choice;
 		boolean isRecorded = false;
@@ -61,6 +89,9 @@ public class Room {
 		printRoomInfo();
 	}
 	
+	/**
+	 * Print room information
+	 */
 	public void printRoomInfo(){
 		System.out.println("             Room Information");
 		System.out.println("==============================================");

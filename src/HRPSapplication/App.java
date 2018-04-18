@@ -4,21 +4,53 @@ import HRPSapplication.GuestMasterList;
 import HRPSapplication.HotelRooms;
 import HRPSapplication.Reservation;
 import HRPSapplication.RoomService;
-import HRPSapplication.SerializeDB;
 import java.util.Scanner;
 
+/**
+ * Main application for user--system interaction
+ */
 public class App {
-	private static final int BY_PRESIDENT_RMS = HotelRooms.BY_PRESIDENT_ROOMS;
+	/**
+	 * Total Number of rooms
+	 */
+	private static final int TOTAL_RMS = HotelRooms.BY_PRESIDENT_ROOMS;
 	
 	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
 		
+		/**
+		 * Array of guests
+		 */
 	  	GuestMasterList gml = new GuestMasterList();
+	  	/**
+	  	 * Array of rooms
+	  	 */
 	   	HotelRooms rooms = new HotelRooms();
+	   	/**
+	   	 * Array of reservations
+	   	 */
 	   	Reservation[] reservations = new Reservation[500];
+	   	/**
+	   	 * Array of room services
+	   	 */
     	RoomService[] rmServices = new RoomService[50];
 	      
-    	int choice, choice2, choice3, rID, noOfReservations = 0, noOfServices = 0;
+    	int choice, choice2, choice3;
+    	/**
+    	 * Room ID
+    	 */
+    	int rID;
+    	/**
+    	 * Number of reservations
+    	 */
+    	int noOfReservations = 0;
+    	/**
+    	 * Number of room services
+    	 */
+    	int noOfServices = 0;
+    	/**
+    	 * Check if the info is recorded. If not, repeat the loop
+    	 */
     	boolean isRecorded = false;
 	    Room rm;
 	    String keyword;
@@ -185,16 +217,16 @@ public class App {
 	    			}
 	    		}while(!isRecorded);
 	    		break;
-	    	case 3://Create/Update rooms details
+	    	case 3://Create/Update rooms details	
 	    		System.out.println("Enter the room ID:");
 	    		rID = sc.nextInt();
-	    		if (rID > 0 && rID <= BY_PRESIDENT_RMS) {
+	    		if (rID > 0 && rID <= TOTAL_RMS) {
 	    			rooms.getRoomByRoomID(rID).updateRoomDetails();
 	    		} else {
 	    			System.out.println("Invalid room ID!");
 	    		}
 	    		break;
-	    	case 4://Entering room service orders
+	    	case 4://Entering room service orders	
 	    		System.out.println("Enter the reservation ID: ");
 	    		int resID = sc.nextInt();
 	    		int index = Reservation.searchReservation(reservations, resID, noOfReservations);
@@ -294,9 +326,9 @@ public class App {
 	    		}while(!isRecorded);
 	    		break;
 	    	case 6://Check room availability
-	    		System.out.println("Enter the room ID(1-" + BY_PRESIDENT_RMS + "):");
+	    		System.out.println("Enter the room ID(1-" + TOTAL_RMS + "):");
 	    		rID = sc.nextInt();
-	    		if (rID > 0 && rID <= BY_PRESIDENT_RMS) {
+	    		if (rID > 0 && rID <= TOTAL_RMS) {
 	    			rm = rooms.getRoomByRoomID(rID);
 	    			if (rm.getRoomStatus().equals("vacant")) {
 	    				System.out.println("This room is vacant");

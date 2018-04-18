@@ -3,13 +3,25 @@ package HRPSapplication;
 import HRPSapplication.Guest;
 import java.util.Scanner;
 
+/**
+ * The class managing all guests' information
+ */
 public class GuestMasterList {
     
+	/**
+	 * Array of guests
+	 */
     private Guest[] masterList;
-    private static int counter=0;//count the number of guests
+    /**
+     * Count the number of guests
+     */
+    private static int counter=0;
+    
     Scanner sc = new Scanner(System.in);
     
-    //Constructor
+    /**
+     * Constructor for initializing the array of null guests
+     */
 	public GuestMasterList()
 	{
 		Guest[] emptyGuestList = new Guest[1000];
@@ -20,13 +32,20 @@ public class GuestMasterList {
 		masterList = emptyGuestList;
 	}
 	
+	/**
+	 * Use the Guest constructor to record a guest's information and store it in the array of guests 
+	 */
 	public void newGuest()
 	{   
 		counter++;
 	    masterList[counter-1]= new Guest(0);	   
 	}
 	
-	//check if guest ID is valid
+	/**
+	 * Check if the guest ID is valid
+	 * @param gID Guest ID
+	 * @return Boolean result
+	 */
 	public static Boolean checkValid(int gID)
 	{
 	    if((gID<=counter)&(gID>=1))
@@ -38,7 +57,12 @@ public class GuestMasterList {
 	    }
 	}
 	
-	//
+	/**
+	 * Search and return guest by guest name keywords
+	 * @param gml Array of guests
+	 * @param keyword Guest name
+	 * @return Guest
+	 */
 	public Guest searchGuestByKeywords(GuestMasterList gml, String keyword) {
 		Guest nullResult = new Guest();
 		Guest[] resultList = new Guest[100];

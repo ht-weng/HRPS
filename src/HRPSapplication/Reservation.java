@@ -9,32 +9,93 @@ import java.text.SimpleDateFormat;
 import HRPSapplication.HotelRooms;
 import HRPSapplication.RoomService;
 
+/**
+ * The class managing reservations
+ */
 public class Reservation {
 	Scanner sc = new Scanner(System.in);
     
+	/**
+	 * Reservation ID can identify a reservation
+	 */
 	private int reservationID;
+	/**
+	 * Guest in the reservation
+	 */
 	private Guest guest;
+	/**
+	 * Room in the reservation
+	 */
 	private Room room;
-	private String billingInfo;//credit card number
+	/**
+	 * Credit card number 
+	 */
+	private String billingInfo;
+	/**
+	 * Check-in date
+	 */
 	private Date checkIn;
+	/**
+	 * Check-out date
+	 */
 	private Date checkOut;
 	private int noOfAdult;
 	private int noOfChildren;
-	private String status;// Confirmed, Checked-In, Checked-Out, Expired, Cancelled
+	/**
+	 * Reservation status can be Confirmed/Checked-In/Checked-Out/Expired/Cancelled
+	 */
+	private String status;
+	/**
+	 * Array of room services in the reservation
+	 */
 	private RoomService[] roomServices = new RoomService[50];
+	/**
+	 * To check if the reservation is empty(null)
+	 */
 	private boolean isEmpty = false;
 	
+	/**
+	 * Count the number of reservations
+	 */
 	private static int counter = 1; 
+	/**
+	 * Count the number of room services
+	 */
 	private static int noOfServices = 0;
-	
+	/**
+	 * Total number of single rooms
+	 */
 	private static final int MAX_SINGLE_RMS = HotelRooms.MAX_SINGLE_ROOMS;
-	private static final int BY_SINGLE_RMS = MAX_SINGLE_RMS, BY_DOUBLE_RMS = HotelRooms.BY_DELUXE_ROOMS, BY_DELUXE_RMS = HotelRooms.BY_DELUXE_ROOMS, 
-			BY_PRESIDENT_RMS = HotelRooms.BY_PRESIDENT_ROOMS;
+	/**
+	 * Number of single rooms
+	 */
+	private static final int BY_SINGLE_RMS = MAX_SINGLE_RMS;
+	/**
+	 * Number of single and double rooms
+	 */
+	private static final int BY_DOUBLE_RMS = HotelRooms.BY_DELUXE_ROOMS;
+	/**
+	 * Number of single, double rooms and deluxe rooms
+	 */
+	private static final int BY_DELUXE_RMS = HotelRooms.BY_DELUXE_ROOMS; 
+	/**
+	 * Total number of rooms
+	 */
+	private static final int BY_PRESIDENT_RMS = HotelRooms.BY_PRESIDENT_ROOMS;
 	
-	//Construct a null reservation
+	/**
+	 * Constructs a null reservation
+	 */
 	public Reservation() {isEmpty = true;}
 	
-	//Construct a valid reservation P.S.isWalkIn is to differentiate the check-ins by walk-in from the ones by reservation
+	/**
+	 * Construct a valid reservation P.S.isWalkIn is to differentiate the check-ins by walk-in from the ones by reservation
+	 * @param rooms Array of rooms
+	 * @param gml Guest master list
+	 * @param isWalkIn Indicate if the reservation is Walk-In or By Reservation
+	 * @param reservations Array of reservations
+	 * @param noOfReservations Number of reservations
+	 */
 	public Reservation(HotelRooms rooms,GuestMasterList gml, boolean isWalkIn, Reservation[] reservations, int noOfReservations) {
 		setReservationID();
 		if(isWalkIn) {
@@ -296,7 +357,9 @@ public class Reservation {
 	    }
 	}
 	
-	//
+	/**
+	 * Print reservation receipt
+	 */
 	public void reservationReceipt() {
 		System.out.println("           Reservation Receipt");
 		System.out.println("===========================================");
@@ -321,7 +384,9 @@ public class Reservation {
 		System.out.println("===========================================");
 	}
 
-	//checks if the reservation has expired, and updates the room status and reservation accordingly
+	/**
+	 * Check if the reservation has expired, and updates the room status and reservation accordingly
+	 */
 	public void checkExpiry() {	 
 		Date now;
 	    Calendar cal = Calendar.getInstance();
@@ -333,7 +398,9 @@ public class Reservation {
 	    }
 	}
 
-	//update the reservation and room status when checking-in
+	/**
+	 * Update the reservation and room status when checked-in
+	 */
 	public void checkedIn() {
 		if (this.room.getRoomStatus().equals("reserved")) {
 			Date now;
@@ -350,7 +417,9 @@ public class Reservation {
 		}
 	}
 	
-	//update the reservation and room status when checking-out
+	/**
+	 * Update the reservation and room status when checked-out
+	 */
 	public void checkedOut() {
 		if (this.room.getRoomStatus().equals("occupied")) {
 			Date now;
@@ -387,13 +456,20 @@ public class Reservation {
 		}
 	}
 	
-	//calculate the days between to dates to help generate the room fee
+	/**
+	 * Calculate the days between two dates to help generate the room fee
+	 * @param one First date
+	 * @param two Second date
+	 * @return Number of days
+	 */
 	public int daysBetween(Date one, Date two) {
 		long difference = (one.getTime() - two.getTime())/8640000;
 		return (int)Math.abs(difference);
 	}
 	
-	//record check-in date
+	/**
+	 * Record check-in date
+	 */
 	public void enterCheckInDate() {
 		boolean isRecorded = false;
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -422,7 +498,9 @@ public class Reservation {
         } while(!isRecorded);
 	}
 	
-	//record check-out date
+	/**
+	 * Record check-out date
+	 */
 	public void enterCheckOutDate() {
 		boolean isRecorded = false;
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -448,7 +526,12 @@ public class Reservation {
         } while(!isRecorded); 	
 	}
 	
-	//
+	/**
+	 * Update reservation attributes
+	 * @param rms Array of rooms
+	 * @param reservations Array of reservations
+	 * @param noOfReservations Number of reservations
+	 */
 	public void updateReservation(HotelRooms rms, Reservation[] reservations, int noOfReservations) {
 		boolean isRecorded = false, _isRecorded = false;
 		int choice;
@@ -634,7 +717,13 @@ public class Reservation {
 		reservationReceipt();
 	}
 	
-	//search confirmed reservation by guest name keywords
+	/**
+	 * Search and return confirmed reservation by guest name keywords
+	 * @param resList Array of reservations
+	 * @param keyword Guest name keywords
+	 * @param noOfRes Number of reservations
+	 * @return Reservation
+	 */
   	public Reservation searchReservationByName(Reservation[] resList, String keyword, int noOfRes) {
   		Reservation nullResult = new Reservation();
   		Reservation[] resultList = new Reservation[100];
@@ -680,7 +769,13 @@ public class Reservation {
   		}
   	}
   	
-  	//
+  	/**
+  	 * Search and return reservation by room number
+  	 * @param resList Array of reservations
+  	 * @param rmNo Room number
+  	 * @param noOfRes Number of reservations
+  	 * @return Reservation
+  	 */
   	public static Reservation searchReservationByRoomNo(Reservation[] resList, String rmNo, int noOfRes) {
   		Reservation nullResult = new Reservation();
   		
@@ -693,7 +788,13 @@ public class Reservation {
   		return nullResult;
   	}
 	
-	//search reservation by reservation ID
+	/**
+	 * Search and return index of reservation in the array of reservations by reservation ID
+	 * @param list Array of reservations
+	 * @param resID Reservation ID
+	 * @param length Number of reservations
+	 * @return Index of reservation
+	 */
 	public static int searchReservation(Reservation[] list, int resID, int length) {
     	int result = -1;
     	for (int i = 0; i < length; i++) {
@@ -703,7 +804,15 @@ public class Reservation {
     	return result;
     }
 	
-	//check if there's any reservation between the check in and check out date, returns false if there isn't and true if there is.
+	/**
+	 * Check if there's any reservation between the check in and check out date, returns false if there isn't and true if there is.
+	 * @param List Array of reservations
+	 * @param checkIn Check-in date
+	 * @param checkOut Check-out date
+	 * @param roomId Room ID
+	 * @param noOfReservations Number of reservations
+	 * @return Boolean result
+	 */
 	public static boolean checkReservation(Reservation[] List, Date checkIn, Date checkOut, int roomId, int noOfReservations){ 
 		boolean check =false;
 		for(int i=0;i<noOfReservations;i++)
@@ -727,7 +836,10 @@ public class Reservation {
 		return check;
 	}
 	
-	//
+	/**
+	 * Update reservation status
+	 * @param stat New status
+	 */
 	public void updateStatus(String stat) {
 		if(stat.equals("Confirmed") || stat.equals("Checked-In") || stat.equals("Checked-Out") || stat.equals("Expired") || stat.equals("Cancelled"))
 			setStatus(stat);
@@ -735,7 +847,10 @@ public class Reservation {
 			System.out.println("Invalid Status");
 	}
 	
-	//reserve room service
+	/**
+	 * Reserve room service
+	 * @param rmSvc Room service
+	 */
 	public void enterRoomService(RoomService rmSvc) {
 		noOfServices++;
 		roomServices[noOfServices-1] = rmSvc;
