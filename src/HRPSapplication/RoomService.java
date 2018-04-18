@@ -63,7 +63,11 @@ public class RoomService {
 	
 	public int getPrice() {return price;}
 	
+	public String getDescription() {return description;}
+	
 	public void setName(String newName) {name = newName;}
 	
 	public void setPrice(int newPrice) {price = newPrice;}
+	
+	public void setDescription(String newDescription) {description = newDescription;}
 }

@@ -202,8 +202,10 @@ public class App {
 	    			if (noOfServices > 0) {
 			    		System.out.println("The current room service list: ");
 			    		for (int i = 0; i < noOfServices; i++) {
-			    			System.out.println((i+1) + ": " + rmServices[i].getName());
-			    		}
+	    					System.out.println((i+1) + ": " + rmServices[i].getName());
+	    					System.out.println(rmServices[i].getDescription());
+	    					System.out.println("$" + rmServices[i].getPrice());
+	    				}
 			    		System.out.println("Enter the room service ID: ");
 			    		int rmSvcID = sc.nextInt();
 			    		reservations[index].enterRoomService(rmServices[rmSvcID-1]);
@@ -244,6 +246,8 @@ public class App {
 	    					System.out.println("The current room service list: ");
 		    				for (int i = 0; i < noOfServices; i++) {
 		    					System.out.println((i+1) + ": " + rmServices[i].getName());
+		    					System.out.println(rmServices[i].getDescription());
+		    					System.out.println("$" + rmServices[i].getPrice());
 		    				}
 		    				System.out.println("Enter the room service ID: ");
 		    				int rmSvcID = sc.nextInt();
@@ -262,6 +266,8 @@ public class App {
 		    				System.out.println("The current room service list: ");
 		    				for (int i = 0; i < noOfServices; i++) {
 		    					System.out.println((i+1) + ": " + rmServices[i].getName());
+		    					System.out.println(rmServices[i].getDescription());
+		    					System.out.println("$" + rmServices[i].getPrice());
 		    				}
 		    				System.out.println("Enter the room service ID: ");
 		    				int rmSvcID = sc.nextInt();
