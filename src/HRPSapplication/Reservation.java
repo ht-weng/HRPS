@@ -310,6 +310,7 @@ public class Reservation {
 	        System.out.println("2.Enter new credit card number");
 	        int choice1= sc.nextInt();
 	        if(choice1==1) { 
+	        	sc.nextLine();
 	        	this.billingInfo= guest.getCredit();
 	        } else {
 	            System.out.println("Enter the alternate credit card number ");
