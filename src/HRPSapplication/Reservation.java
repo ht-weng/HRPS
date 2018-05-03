@@ -785,7 +785,7 @@ public class Reservation {
   				return resList[i];
   			}
   		}	
-  		System.out.println("Invalid room numner!");
+  		System.out.println("Reservation does not exist!");
   		return nullResult;
   	}
 	

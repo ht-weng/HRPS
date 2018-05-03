@@ -17,7 +17,7 @@ public class App {
 	
 	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		/**
 		 * Array of guests
 		 */
@@ -391,7 +391,7 @@ public class App {
 	    			res.checkedOut();
 	    			isRecorded = true;
 	    		} else {
-	    			System.out.println("Room does not exist!");
+	    			//reservation does not exist
 	    			isRecorded = false;
 	    		}
 	    		break;
